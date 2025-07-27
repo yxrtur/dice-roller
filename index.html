@@ -40,54 +40,64 @@
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
+    max-width: 600px;
     width: 100%;
-    max-width: 480px;
   }
   label {
     font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 6px;
   }
-  select {
+  select, input[type="number"] {
     margin-left: 8px;
     padding: 5px 10px;
     font-size: 16px;
+    width: 80px;
   }
   .dice-container {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 30px;
+    gap: 40px;
     width: 100%;
-    max-width: 600px;
+    max-width: 800px;
     margin-bottom: 30px;
   }
   .dice {
     background: #d6ccb6;
     border: 1px solid #999;
-    width: 160px;
-    height: 160px;
+    width: 200px;
+    height: 200px;
     border-radius: 8px;
     position: relative;
     box-shadow: inset 0 0 5px #bbb;
     user-select: none;
     transition: transform 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: #113;
+    font-size: 120px;
   }
   .dot {
     background: #113;
     border-radius: 50%;
     position: absolute;
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
   }
-  /* Dot positions adjusted for 160px dice */
-  .dot1 { top: 20px; left: 20px; }
-  .dot2 { top: 20px; left: 68px; }
-  .dot3 { top: 20px; left: 116px; }
-  .dot4 { top: 68px; left: 20px; }
-  .dot5 { top: 68px; left: 68px; }
-  .dot6 { top: 68px; left: 116px; }
-  .dot7 { top: 116px; left: 20px; }
-  .dot8 { top: 116px; left: 68px; }
-  .dot9 { top: 116px; left: 116px; }
+  /* Dot positions adjusted for 200px dice */
+  .dot1 { top: 25px; left: 25px; }
+  .dot2 { top: 25px; left: 85px; }
+  .dot3 { top: 25px; left: 145px; }
+  .dot4 { top: 85px; left: 25px; }
+  .dot5 { top: 85px; left: 85px; }
+  .dot6 { top: 85px; left: 145px; }
+  .dot7 { top: 145px; left: 25px; }
+  .dot8 { top: 145px; left: 85px; }
+  .dot9 { top: 145px; left: 145px; }
 
   button#rollBtn {
     font-size: 24px;
@@ -146,26 +156,31 @@
   /* Responsive tweaks */
   @media (max-width: 480px) {
     .dice {
-      width: 110px;
-      height: 110px;
+      width: 120px;
+      height: 120px;
+      font-size: 70px;
     }
     .dot {
-      width: 22px;
-      height: 22px;
+      width: 25px;
+      height: 25px;
     }
-    .dot1 { top: 14px; left: 14px; }
-    .dot2 { top: 14px; left: 46px; }
-    .dot3 { top: 14px; left: 78px; }
-    .dot4 { top: 46px; left: 14px; }
-    .dot5 { top: 46px; left: 46px; }
-    .dot6 { top: 46px; left: 78px; }
-    .dot7 { top: 78px; left: 14px; }
-    .dot8 { top: 78px; left: 46px; }
-    .dot9 { top: 78px; left: 78px; }
+    .dot1 { top: 15px; left: 15px; }
+    .dot2 { top: 15px; left: 50px; }
+    .dot3 { top: 15px; left: 85px; }
+    .dot4 { top: 50px; left: 15px; }
+    .dot5 { top: 50px; left: 50px; }
+    .dot6 { top: 50px; left: 85px; }
+    .dot7 { top: 85px; left: 15px; }
+    .dot8 { top: 85px; left: 50px; }
+    .dot9 { top: 85px; left: 85px; }
     button#rollBtn {
       width: 100%;
       font-size: 20px;
       padding: 12px 0;
+    }
+    select, input[type="number"] {
+      width: 60px;
+      font-size: 14px;
     }
   }
 </style>
@@ -185,24 +200,28 @@
 <p class="emphasis">Roll dice online</p>
 
 <div class="controls">
-  <label for="numDice">Number of dice:</label>
-  <select id="numDice">
-    <option value="1">1 die</option>
-    <option value="2">2 dice</option>
-    <option value="3">3 dice</option>
-    <option value="4">4 dice</option>
-    <option value="5">5 dice</option>
-    <option value="6">6 dice</option>
-    <option value="7">7 dice</option>
-    <option value="8">8 dice</option>
-    <option value="9">9 dice</option>
-    <option value="10">10 dice</option>
+  <label for="numDiceSelect">Number of dice (select):</label>
+  <select id="numDiceSelect">
+    <!-- 1 to 10 -->
+    <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
+    <option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option>
   </select>
 
-  <label for="numFaces">Number of faces:</label>
-  <select id="numFaces" disabled>
-    <option value="6" selected>6 faces</option>
+  <label for="numDiceInput">or enter dice count:</label>
+  <input type="number" id="numDiceInput" min="1" max="100" value="1" step="1" />
+
+  <label for="numFacesSelect">Number of faces (select):</label>
+  <select id="numFacesSelect">
+    <!-- 2 to 20 -->
+    <option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6" selected>6</option>
+    <option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option>
+    <option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option>
+    <option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option>
+    <option value="19">19</option><option value="20">20</option>
   </select>
+
+  <label for="numFacesInput">or enter face count:</label>
+  <input type="number" id="numFacesInput" min="2" max="100" value="6" step="1" />
 </div>
 
 <div class="dice-container" id="diceContainer" aria-live="polite" aria-atomic="true"></div>
@@ -212,18 +231,22 @@
 <div id="result" aria-live="polite" aria-atomic="true">Result: </div>
 
 <div class="instructions">
-  <p>This is an online dice simulator. You can select the number of dice (up to 10) to roll.</p>
+  <p>This is an online dice simulator. You can select or enter the number of dice and faces.</p>
   <ol>
-    <li>Select the number of dice.</li>
+    <li>Select or enter the number of dice.</li>
+    <li>Select or enter the number of faces.</li>
     <li>Click <strong>Roll</strong> to roll the dice.</li>
-    <li>The result will display the total sum of all dice rolled.</li>
+    <li>The result shows the sum of all dice rolled.</li>
   </ol>
 </div>
 
 <script>
   const diceContainer = document.getElementById('diceContainer');
   const rollBtn = document.getElementById('rollBtn');
-  const numDiceSelect = document.getElementById('numDice');
+  const numDiceSelect = document.getElementById('numDiceSelect');
+  const numDiceInput = document.getElementById('numDiceInput');
+  const numFacesSelect = document.getElementById('numFacesSelect');
+  const numFacesInput = document.getElementById('numFacesInput');
   const resultDiv = document.getElementById('result');
 
   // Dot positions for 6-face dice only
@@ -242,65 +265,147 @@
     return dot;
   }
 
-  function renderDiceFace(value) {
+  // Render a dice face: dots if faces=6, else large number
+  function renderDiceFace(value, faces) {
     const dice = document.createElement('div');
     dice.classList.add('dice');
     dice.dataset.value = value;
 
-    diceDotPositions[value].forEach(dotClass => {
-      dice.appendChild(createDot(dotClass));
-    });
-
+    if (faces === 6 && diceDotPositions[value]) {
+      dice.style.fontSize = '';
+      dice.style.color = '#113';
+      dice.innerHTML = '';
+      diceDotPositions[value].forEach(dotClass => {
+        dice.appendChild(createDot(dotClass));
+      });
+    } else {
+      dice.innerHTML = value;
+      dice.style.fontSize = '120px';
+      dice.style.color = '#113';
+    }
     return dice;
   }
 
-  // Render initial dice with face 1
-  function initializeDice(num) {
+  // Synchronize selects and inputs for dice count
+  function syncDiceInputs(fromInput) {
+    if (fromInput === 'select') {
+      numDiceInput.value = numDiceSelect.value;
+    } else {
+      let val = parseInt(numDiceInput.value);
+      if (isNaN(val) || val < 1) val = 1;
+      if (val > 100) val = 100;
+      numDiceInput.value = val;
+      if (val <= 10) {
+        numDiceSelect.value = val.toString();
+      } else {
+        numDiceSelect.value = '';
+      }
+    }
+  }
+  numDiceSelect.addEventListener('change', () => {
+    syncDiceInputs('select');
+  });
+  numDiceInput.addEventListener('input', () => {
+    syncDiceInputs('input');
+  });
+
+  // Synchronize selects and inputs for faces count
+  function syncFacesInputs(fromInput) {
+    if (fromInput === 'select') {
+      numFacesInput.value = numFacesSelect.value;
+    } else {
+      let val = parseInt(numFacesInput.value);
+      if (isNaN(val) || val < 2) val = 2;
+      if (val > 100) val = 100;
+      numFacesInput.value = val;
+      if (val <= 20) {
+        numFacesSelect.value = val.toString();
+      } else {
+        numFacesSelect.value = '';
+      }
+    }
+  }
+  numFacesSelect.addEventListener('change', () => {
+    syncFacesInputs('select');
+  });
+  numFacesInput.addEventListener('input', () => {
+    syncFacesInputs('input');
+  });
+
+  // Initialize dice faces with 1
+  function initializeDice(num, faces) {
     diceContainer.innerHTML = '';
     for (let i = 0; i < num; i++) {
-      diceContainer.appendChild(renderDiceFace(1));
+      diceContainer.appendChild(renderDiceFace(1, faces));
     }
   }
 
-  // Roll dice with shake animation, dice faces do NOT change while shaking
+  // Roll dice with shake animation, faces fixed during shake
   function rollDice() {
-    const numDice = +numDiceSelect.value;
+    const numDice = Math.min(Math.max(parseInt(numDiceInput.value), 1), 100);
+    const numFaces = Math.min(Math.max(parseInt(numFacesInput.value), 2), 100);
+
     rollBtn.disabled = true;
     resultDiv.textContent = 'Rolling...';
 
-    // Add shake class to existing dice
     const diceElements = diceContainer.querySelectorAll('.dice');
+
+    // Add shake class
     diceElements.forEach(dice => dice.classList.add('shake'));
 
-    // After 600ms, update dice faces and result
     setTimeout(() => {
       let total = 0;
       diceElements.forEach(dice => {
         dice.classList.remove('shake');
-        const roll = Math.floor(Math.random() * 6) + 1;
+        const roll = Math.floor(Math.random() * numFaces) + 1;
         total += roll;
-        // Clear dots
         dice.innerHTML = '';
         dice.dataset.value = roll;
-        diceDotPositions[roll].forEach(dotClass => {
-          dice.appendChild(createDot(dotClass));
-        });
+
+        if (numFaces === 6 && diceDotPositions[roll]) {
+          dice.style.fontSize = '';
+          dice.style.color = '#113';
+          diceDotPositions[roll].forEach(dotClass => {
+            dice.appendChild(createDot(dotClass));
+          });
+        } else {
+          dice.style.fontSize = '120px';
+          dice.style.color = '#113';
+          dice.textContent = roll;
+        }
       });
       resultDiv.textContent = `Result: ${total}`;
       rollBtn.disabled = false;
     }, 600);
+
   }
 
-  // Initialize dice on page load and when number changes
+  // Initialize on load
+  function initialize() {
+    syncDiceInputs('select');
+    syncFacesInputs('select');
+    initializeDice(parseInt(numDiceInput.value), parseInt(numFacesInput.value));
+  }
+
   numDiceSelect.addEventListener('change', () => {
-    initializeDice(+numDiceSelect.value);
-    resultDiv.textContent = 'Result: ';
+    initializeDice(parseInt(numDiceSelect.value), parseInt(numFacesInput.value));
+  });
+  numDiceInput.addEventListener('input', () => {
+    const numDice = Math.min(Math.max(parseInt(numDiceInput.value) || 1,1),100);
+    initializeDice(numDice, parseInt(numFacesInput.value));
   });
 
-  // Initial setup
-  initializeDice(+numDiceSelect.value);
+  numFacesSelect.addEventListener('change', () => {
+    initializeDice(parseInt(numDiceInput.value), parseInt(numFacesSelect.value));
+  });
+  numFacesInput.addEventListener('input', () => {
+    const numFaces = Math.min(Math.max(parseInt(numFacesInput.value) || 6,2),100);
+    initializeDice(parseInt(numDiceInput.value), numFaces);
+  });
 
   rollBtn.addEventListener('click', rollDice);
+
+  initialize();
 </script>
 
 </body>
