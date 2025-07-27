@@ -265,45 +265,37 @@
 </h1>
 <p class="emphasis">Roll dice online</p>
 
-<div class="controls" role="form" aria-label="Dice controls" style="display: flex; flex-wrap: wrap; gap: 15px 40px; max-width: 420px; margin: 0 auto 25px auto;">
+<div class="controls" role="form" aria-label="Dice controls" style="max-width: 420px; margin: 0 auto 25px auto;">
+  <!-- Line 1 -->
+  <div style="display: flex; gap: 40px; align-items: center; margin-bottom: 8px;">
+    <label for="numDiceSelect" style="font-weight: bold; font-size: 16px; white-space: nowrap; display: flex; align-items: center; gap: 6px;">
+      Number of dice
+      <select id="numDiceSelect" aria-describedby="diceCountHelp" style="width: 80px; font-size: 16px; cursor: pointer;">
+        <option value="1" selected>1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option>
+      </select>
+    </label>
 
-  <!-- Line 1: Number of dice & faces selectors -->
-  <div style="display: flex; align-items: center; gap: 8px; flex: 1 1 200px;">
-    <label for="numDiceSelect" style="font-weight: bold; font-size: 16px; white-space: nowrap;">Number of dice</label>
-    <select id="numDiceSelect" aria-describedby="diceCountHelp" style="width: 80px; font-size: 16px; cursor: pointer;">
-      <option value="1" selected>1</option><option value="2">2</option><option value="3">3</option>
-      <option value="4">4</option><option value="5">5</option><option value="6">6</option>
-      <option value="7">7</option><option value="8">8</option><option value="9">9</option>
-      <option value="10">10</option>
-    </select>
+    <label for="numFacesSelect" style="font-weight: bold; font-size: 16px; white-space: nowrap; display: flex; align-items: center; gap: 6px;">
+      Number of faces
+      <select id="numFacesSelect" aria-describedby="faceCountHelp" style="width: 80px; font-size: 16px; cursor: pointer;">
+        <option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6" selected>6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option>
+      </select>
+    </label>
   </div>
 
-  <div style="display: flex; align-items: center; gap: 8px; flex: 1 1 200px;">
-    <label for="numFacesSelect" style="font-weight: bold; font-size: 16px; white-space: nowrap;">Number of faces</label>
-    <select id="numFacesSelect" aria-describedby="faceCountHelp" style="width: 80px; font-size: 16px; cursor: pointer;">
-      <option value="2">2</option><option value="3">3</option><option value="4">4</option>
-      <option value="5">5</option><option value="6" selected>6</option><option value="7">7</option>
-      <option value="8">8</option><option value="9">9</option><option value="10">10</option>
-      <option value="11">11</option><option value="12">12</option><option value="13">13</option>
-      <option value="14">14</option><option value="15">15</option><option value="16">16</option>
-      <option value="17">17</option><option value="18">18</option><option value="19">19</option>
-      <option value="20">20</option>
-    </select>
-  </div>
+  <!-- Line 2 -->
+  <div style="display: flex; gap: 40px; align-items: center; font-size: 14px; color: #555;">
+    <label for="numDiceInput" style="white-space: nowrap; display: flex; align-items: center; gap: 6px;">
+      Enter dice count
+      <input type="number" id="numDiceInput" min="1" max="100" value="1" step="1" style="width: 60px; cursor: text;" />
+    </label>
 
-  <!-- Line 2: Enter dice count & face count inputs -->
-  <div style="display: flex; align-items: center; gap: 8px; flex: 1 1 200px; font-size: 14px; color: #555;">
-    <label for="numDiceInput" style="white-space: nowrap;">Enter dice count</label>
-    <input type="number" id="numDiceInput" min="1" max="100" value="1" step="1" style="width: 60px; cursor: text;" />
+    <label for="numFacesInput" style="white-space: nowrap; display: flex; align-items: center; gap: 6px;">
+      Face count
+      <input type="number" id="numFacesInput" min="2" max="100" value="6" step="1" style="width: 60px; cursor: text;" />
+    </label>
   </div>
-
-  <div style="display: flex; align-items: center; gap: 8px; flex: 1 1 200px; font-size: 14px; color: #555;">
-    <label for="numFacesInput" style="white-space: nowrap;">Face count</label>
-    <input type="number" id="numFacesInput" min="2" max="100" value="6" step="1" style="width: 60px; cursor: text;" />
-  </div>
-
 </div>
-
 
 
 <div class="dice-container" id="diceContainer" aria-live="polite" aria-atomic="true"></div>
