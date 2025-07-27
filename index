@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dice & Lottery Tool</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      margin: 0;
+    }
+
+    select {
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 30px;
+      width: 220px;
+    }
+
+    .tool-section {
+      display: none;
+      width: 100%;
+      max-width: 900px;
+      text-align: center;
+    }
+
+    .tool-section.active {
+      display: block;
+    }
+
+    /* Shared form layout */
+    .controls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .inline-controls {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 5px;
+    }
+
+    .controls input[type=number] {
+      width: 80px;
+      padding: 8px;
+      font-size: 16px;
+    }
+
+    .controls button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    /* Dice Styles */
+    .dice-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      justify-items: center;
+      gap: 20px;
+      width: 100%;
+    }
+
+    .dice {
+      width: 100px;
+      height: 100px;
+      background-color: #ffffff;
+      border: 2px solid #ccc;
+      border-radius: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 32px;
+      font-weight: bold;
+      transition: transform 0.4s ease;
+    }
+
+    .dice.shake {
+      animation: shake 0.5s;
+    }
+
+    @keyframes shake {
+      0% { transform: rotate(0deg); }
+      25% { transform: rotate(10deg); }
+      50% { transform: rotate(-10deg); }
+      75% { transform: rotate(10deg); }
+      100% { transform: rotate(0deg); }
+    }
+
+    /* Lottery output */
+    .lottery-output {
+      font-size: 28px;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Tool Selector -->
+  <select id="toolSelector">
+    <option value="dice">🎲 Dice Roller</option>
+    <option value="lottery">🎰 Lottery Generator</option>
+  </select>
+
+  <!-- Dice Roller Tool -->
+  <div id="dice" class="tool-section active">
+    <div class="controls">
+      <div class="inline-controls">
+        <label>Number of Dice:
+          <input type="number" id="diceCount" min="1" max="100" value="2">
+        </label>
+        <label>Number of Faces:
+          <input type="number" id="faceCount" min="2" max="100" value="6">
+        </label>
+      </div>
+      <div>Or</div>
+      <div class="inline-controls">
+        <label>Enter Dice Count:
+          <input type="number" id="customDiceCount" min="1" max="100">
+        </label>
+        <label>Enter Face Count:
+          <input type="number" id="customFaceCount" min="2" max="100">
+        </label>
+      </div>
+      <button onclick="rollDice()">Roll Dice</button>
+    </div>
+    <div class="dice-container" id="diceContainer"></div>
+  </div>
+
+  <!-- Lottery Tool -->
+  <div id="lottery" class="tool-section">
+    <div class="controls">
+      <div class="inline-controls">
+        <label>Numbers to Draw:
+          <input type="number" id="lotteryCount" min="1" max="10" value="6">
+        </label>
+        <label>Max Number:
+          <input type="number" id="lotteryMax" min="10" max="99" value="49">
+        </label>
+      </div>
+      <button onclick="generateLottery()">Generate Lottery Numbers</button>
+    </div>
+    <div class="lottery-output" id="lotteryOutput"></div>
+  </div>
+
+  <script>
+    // Tool switcher
+    const selector = document.getElementById('toolSelector');
+    const sections = document.querySelectorAll('.tool-section');
+
+    selector.addEventListener('change', () => {
+      sections.forEach(section => section.classList.remove('active'));
+      document.getElementById(selector.value).classList.add('active');
+    });
+
+    // Dice roller logic
+    function rollDice() {
+      let diceCount = parseInt(document.getElementById('customDiceCount').value) || parseInt(document.getElementById('diceCount').value);
+      let faceCount = parseInt(document.getElementById('customFaceCount').value) || parseInt(document.getElementById('faceCount').value);
+      const container = document.getElementById('diceContainer');
+      container.innerHTML = '';
+
+      for (let i = 0; i < diceCount; i++) {
+        const die = document.createElement('div');
+        die.className = 'dice';
+        container.appendChild(die);
+
+        setTimeout(() => {
+          die.classList.add('shake');
+          setTimeout(() => {
+            die.classList.remove('shake');
+            die.textContent = Math.floor(Math.random() * faceCount) + 1;
+          }, 500);
+        }, i * 50);
+      }
+    }
+
+    // Lottery logic
+    function generateLottery() {
+      const count = parseInt(document.getElementById('lotteryCount').value);
+      const max = parseInt(document.getElementById('lotteryMax').value);
+      const output = document.getElementById('lotteryOutput');
+      const result = new Set();
+
+      while (result.size < count) {
+        result.add(Math.floor(Math.random() * max) + 1);
+      }
+
+      output.textContent = Array.from(result).sort((a, b) => a - b).join(' - ');
+    }
+  </script>
+
+</body>
+</html>
