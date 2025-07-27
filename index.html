@@ -43,13 +43,13 @@
     flex-direction: column;
     gap: 8px;
     width: 100%;
-    align-items: center; /* Centra horizontalmente */
+    align-items: center; /* Center horizontally */
   }
   .controls .line {
     display: flex;
     gap: 40px;
     align-items: center;
-    justify-content: center; /* centra contenido de cada línea */
+    justify-content: center; /* center content inside line */
   }
   label {
     font-weight: bold;
@@ -461,4 +461,24 @@
             dice.appendChild(createDot(dotClass));
           });
         } else {
-          dice.style.fontSize = '
+          dice.style.fontSize = '120px';
+          dice.style.color = '#113';
+          dice.textContent = roll;
+        }
+      });
+
+      resultDiv.textContent = `Result: ${total}`;
+      rollBtn.disabled = false;
+    }, 600);
+  }
+
+  rollBtn.addEventListener('click', () => {
+    rollDice();
+  });
+
+  // Initialize dice on load
+  initializeDice(parseInt(numDiceInput.value), parseInt(numFacesInput.value));
+</script>
+
+</body>
+</html>
