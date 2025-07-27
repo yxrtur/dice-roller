@@ -1,9 +1,75 @@
 <!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Herramientas de azar</title>
+<style>
+  /* Aquí pones todos los estilos del dado y los básicos del menú */
+
+  body {
+    font-family: Arial, sans-serif;
+    background: #d6ccb6;
+    color: #333;
+    margin: 0; padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  nav {
+    margin-bottom: 30px;
+  }
+
+  nav button {
+    background: #4a5a35;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background-color 0.3s;
+  }
+  nav button:hover {
+    background: #3d4729;
+  }
+  nav button.active {
+    background: #2f3b1f;
+    font-weight: bold;
+  }
+
+  section {
+    display: none;
+    width: 100%;
+    max-width: 1280px;
+  }
+  section.active {
+    display: block;
+  }
+
+  /* Copia aquí tus estilos dados (dice) para que funcionen dentro de #diceSection */
+
+  /* ... copia el CSS del dado que tienes ... */
+
+</style>
+</head>
+<body>
+
+<nav aria-label="Navegación principal">
+  <button id="btnDice" class="active" aria-controls="diceSection" aria-selected="true">Dados</button>
+  <button id="btnCoin" aria-controls="coinSection" aria-selected="false">Moneda</button>
+  <button id="btnCard" aria-controls="cardSection" aria-selected="false">Cartas</button>
+</nav>
+
+<section id="diceSection" class="active" role="region" aria-labelledby="btnDice">
+  <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Virtual Dice, Coin & Cards</title>
+<title>Virtual Dice</title>
 <style>
   body {
     background: #d6ccb6;
@@ -40,23 +106,16 @@
     margin: 0 auto 25px auto;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 8px;
     width: 100%;
+    /* Para que las líneas tengan mismo ancho */
   }
-
-  .dice-controls, .coin-controls, .card-controls {
-    border: 1px solid #8a8a72;
-    padding: 15px 20px;
-    border-radius: 10px;
-    background: #e5dec8;
-  }
-
   .controls .line {
     display: flex;
     gap: 40px;
     align-items: center;
-    justify-content: flex-start;
-    width: 100%;
+    justify-content: flex-start; /* alinear a la izquierda, no centrar */
+    width: 100%; /* ancho completo para ambas líneas igual */
   }
   label {
     font-weight: bold;
@@ -67,7 +126,40 @@
     align-items: center;
     gap: 6px;
   }
-  select, input[type="number"] {
+  select {
+    width: 80px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: #f9f7f0;
+    border: 2px solid #8a8a72;
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #2b2b1f;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    background-image:
+      linear-gradient(45deg, transparent 50%, #556b2f 50%),
+      linear-gradient(135deg, #556b2f 50%, transparent 50%),
+      linear-gradient(to right, #ccc, #ccc);
+    background-position:
+      calc(100% - 25px) calc(1em + 2px),
+      calc(100% - 20px) calc(1em + 2px),
+      calc(100% - 15px) 1.2em;
+    background-size: 5px 5px, 5px 5px, 1px 1.5em;
+    background-repeat: no-repeat;
+  }
+  select:focus {
+    outline: none;
+    border-color: #556b2f;
+    box-shadow: 0 0 8px #8aad45;
+  }
+  input[type="number"] {
+    width: 60px;
     border: 2px solid #8a8a72;
     border-radius: 8px;
     padding: 6px 10px;
@@ -76,16 +168,9 @@
     color: #2b2b1f;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
-    background: #f9f7f0;
+    cursor: text;
   }
-  select {
-    width: 80px;
-  }
-  input[type="number"] {
-    width: 60px;
-  }
-  select:focus, input[type="number"]:focus {
+  input[type="number"]:focus {
     outline: none;
     border-color: #556b2f;
     box-shadow: 0 0 8px #8aad45;
@@ -95,7 +180,8 @@
     font-weight: bold;
     font-size: 18px;
     color: #555;
-    margin: 15px 0;
+    margin: 0;
+    padding: 4px 0;
     user-select: none;
     text-align: center;
   }
@@ -106,7 +192,7 @@
     flex-wrap: wrap;
     gap: 30px 20px;
     width: 100%;
-    max-width: 1280px;
+    max-width: 1280px; /* para hasta 16 dados */
     margin-bottom: 30px;
   }
   .dice {
@@ -140,9 +226,9 @@
   .dot8 { top: 72.5%; left: 42.5%; }
   .dot9 { top: 72.5%; left: 72.5%; }
 
-  button.roll-btn {
-    font-size: 20px;
-    padding: 10px 24px;
+  button#rollBtn {
+    font-size: 24px;
+    padding: 12px 30px;
     cursor: pointer;
     border: none;
     border-radius: 6px;
@@ -150,30 +236,30 @@
     color: #eee;
     box-shadow: 0 4px 7px rgba(0,0,0,0.3);
     transition: background-color 0.3s ease;
-    margin-top: 12px;
-    user-select: none;
+    align-self: center;
+    margin-bottom: 30px;
+    min-width: 120px;
   }
-  button.roll-btn:hover:not(:disabled) {
+  button#rollBtn:hover:not(:disabled) {
     background-color: #3d4729;
   }
-  button.roll-btn:disabled {
+  button#rollBtn:disabled {
     background-color: #999;
     cursor: default;
     box-shadow: none;
   }
 
-  #result, #coinResult, #cardResult {
+  #result {
     margin-top: 15px;
     font-weight: bold;
     font-size: 20px;
-    min-height: 30px;
+    min-height: 24px;
     text-align: center;
     width: 100%;
     max-width: 400px;
     margin-left: auto;
     margin-right: auto;
   }
-
   .instructions {
     margin-top: 35px;
     max-width: 700px;
@@ -201,77 +287,29 @@
     100% { transform: rotate(0deg); }
   }
 
-  /* Coin styles */
-  #coin {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    background: linear-gradient(145deg, #ccc, #eee);
-    border: 4px solid #999;
-    box-shadow: inset 0 0 15px #aaa;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 72px;
-    color: #444;
-    user-select: none;
-    margin: 0 auto 15px auto;
-    perspective: 600px;
-    cursor: pointer;
-  }
-  #coin.flip {
-    animation: flipCoin 1s forwards;
-  }
-  @keyframes flipCoin {
-    0%   { transform: rotateY(0deg); }
-    50%  { transform: rotateY(720deg); }
-    100% { transform: rotateY(1080deg); }
-  }
-
-  /* Card styles */
-  #card {
-    width: 120px;
-    height: 180px;
-    border-radius: 10px;
-    background: white;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 60px;
-    user-select: none;
-    margin: 0 auto 15px auto;
-    cursor: pointer;
-    position: relative;
-    transform-style: preserve-3d;
-    perspective: 800px;
-  }
-  #card.flip {
-    animation: flipCard 1s forwards;
-  }
-  @keyframes flipCard {
-    0%   { transform: rotateY(0deg); }
-    50%  { transform: rotateY(180deg); }
-    100% { transform: rotateY(360deg); }
-  }
-  #card .card-face {
-    position: absolute;
-    backface-visibility: hidden;
-  }
-  #card .front {
-    color: #000;
-  }
-  #card .back {
-    background: #004080;
-    width: 120px;
-    height: 180px;
-    border-radius: 10px;
-    backface-visibility: hidden;
-    transform: rotateY(180deg);
-  }
-
-  /* Responsive tweaks */
   @media (max-width: 600px) {
+    .controls {
+      max-width: 100%;
+    }
+    .controls .line {
+      flex-direction: column;
+      gap: 12px;
+      align-items: flex-start; /* alinear izquierda en móvil */
+      width: 100%;
+    }
+    label {
+      font-size: 16px;
+      white-space: normal;
+    }
+    select, input[type="number"] {
+      width: 100% !important;
+      font-size: 16px;
+    }
+    button#rollBtn {
+      width: 100%;
+      font-size: 20px;
+      padding: 12px 0;
+    }
     .dice {
       width: 120px !important;
       height: 120px !important;
@@ -303,12 +341,11 @@
     <circle cx="20" cy="44" r="6" fill="#113"/>
     <circle cx="44" cy="44" r="6" fill="#113"/>
   </svg>
-  Virtual Dice, Coin & Cards
+  Virtual Dice
 </h1>
-<p class="emphasis">Roll dice, flip a coin, or draw a card online</p>
+<p class="emphasis">Roll dice online</p>
 
-<!-- Dice controls -->
-<div class="controls dice-controls" role="form" aria-label="Dice controls">
+<div class="controls" role="form" aria-label="Dice controls">
   <div class="line line1">
     <label for="numDiceSelect">
       Number of dice
@@ -338,46 +375,25 @@
       <input type="number" id="numFacesInput" min="2" max="100" value="6" step="1" />
     </label>
   </div>
-  <button id="rollBtn" class="roll-btn" aria-label="Roll the dice">Roll Dice</button>
 </div>
 
 <div class="dice-container" id="diceContainer" aria-live="polite" aria-atomic="true"></div>
 
+<button id="rollBtn" aria-label="Roll the dice">Roll</button>
+
 <div id="result" aria-live="polite" aria-atomic="true">Result: </div>
 
-<!-- Coin controls -->
-<div class="controls coin-controls" role="form" aria-label="Coin flip controls">
-  <div id="coin" aria-live="polite" aria-atomic="true" aria-label="Coin" role="img" tabindex="0">?</div>
-  <button id="flipCoinBtn" class="roll-btn" aria-label="Flip the coin">Flip Coin</button>
-  <div id="coinResult" aria-live="polite" aria-atomic="true">Result: </div>
-</div>
-
-<!-- Card controls -->
-<div class="controls card-controls" role="form" aria-label="Card draw controls">
-  <div id="card" tabindex="0" aria-live="polite" aria-atomic="true" aria-label="Playing card">
-    <div class="card-face front"></div>
-    <div class="card-face back"></div>
-  </div>
-  <button id="drawCardBtn" class="roll-btn" aria-label="Draw a card">Draw Card</button>
-  <div id="cardResult" aria-live="polite" aria-atomic="true">Result: </div>
-</div>
-
 <div class="instructions">
-  <p>This is an online dice, coin, and card simulator.</p>
+  <p>This is an online dice simulator. You can select or enter the number of dice and faces.</p>
   <ol>
-    <li>Select or enter the number of dice and faces, then click <strong>Roll Dice</strong>.</li>
-    <li>Click <strong>Flip Coin</strong> to flip a coin.</li>
-    <li>Click <strong>Draw Card</strong> to draw a random card from a standard 52-card deck.</li>
+    <li>Select or enter the number of dice.</li>
+    <li>Select or enter the number of faces.</li>
+    <li>Click <strong>Roll</strong> to roll the dice.</li>
+    <li>The result shows the sum of all dice rolled.</li>
   </ol>
 </div>
 
-<!-- Sounds -->
-<audio id="diceSound" src="https://actions.google.com/sounds/v1/dice/dice_roll.mp3" preload="auto"></audio>
-<audio id="coinSound" src="https://actions.google.com/sounds/v1/coins/coin_flip_01.mp3" preload="auto"></audio>
-<audio id="cardSound" src="https://actions.google.com/sounds/v1/cartoon/cartoon_boing_1.mp3" preload="auto"></audio>
-
 <script>
-  // --- Existing dice code ---
   const diceContainer = document.getElementById('diceContainer');
   const rollBtn = document.getElementById('rollBtn');
   const numDiceSelect = document.getElementById('numDiceSelect');
@@ -385,7 +401,6 @@
   const numFacesSelect = document.getElementById('numFacesSelect');
   const numFacesInput = document.getElementById('numFacesInput');
   const resultDiv = document.getElementById('result');
-  const diceSound = document.getElementById('diceSound');
 
   const diceDotPositions = {
     1: ['dot5'],
@@ -504,9 +519,6 @@
     rollBtn.disabled = true;
     resultDiv.textContent = 'Rolling...';
 
-    diceSound.currentTime = 0;
-    diceSound.play();
-
     const diceElements = diceContainer.querySelectorAll('.dice');
 
     diceElements.forEach(dice => dice.classList.add('shake'));
@@ -560,94 +572,69 @@
   rollBtn.addEventListener('click', rollDice);
 
   initializeDice(1, 6);
-
-  // --- Coin flip code ---
-  const coin = document.getElementById('coin');
-  const flipCoinBtn = document.getElementById('flipCoinBtn');
-  const coinResult = document.getElementById('coinResult');
-  const coinSound = document.getElementById('coinSound');
-
-  function flipCoin() {
-    flipCoinBtn.disabled = true;
-    coinResult.textContent = 'Flipping...';
-    coin.textContent = '?';
-    coin.classList.remove('flip');
-    void coin.offsetWidth; // trigger reflow for animation restart
-    coin.classList.add('flip');
-
-    coinSound.currentTime = 0;
-    coinSound.play();
-
-    setTimeout(() => {
-      const outcome = Math.random() < 0.5 ? 'Heads' : 'Tails';
-      coin.textContent = outcome === 'Heads' ? '🪙' : '⚪'; // simple icons (coin/head, white circle/tails)
-      coinResult.textContent = `Result: ${outcome}`;
-      flipCoinBtn.disabled = false;
-    }, 1000);
-  }
-  flipCoinBtn.addEventListener('click', flipCoin);
-
-  // --- Card draw code ---
-  const card = document.getElementById('card');
-  const drawCardBtn = document.getElementById('drawCardBtn');
-  const cardResult = document.getElementById('cardResult');
-  const cardSound = document.getElementById('cardSound');
-
-  // Standard 52 cards: suits and ranks
-  const suits = ['♠', '♥', '♦', '♣'];
-  const ranks = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
-
-  // Build full deck
-  const deck = [];
-  for (let s = 0; s < suits.length; s++) {
-    for (let r = 0; r < ranks.length; r++) {
-      deck.push({rank: ranks[r], suit: suits[s]});
-    }
-  }
-
-  // Shuffle deck util (Fisher-Yates)
-  function shuffle(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-  }
-
-  let currentDeck = shuffle([...deck]);
-
-  function drawCard() {
-    drawCardBtn.disabled = true;
-    cardResult.textContent = 'Drawing...';
-    card.innerHTML = ''; // Clear card faces
-    card.classList.remove('flip');
-    void card.offsetWidth; // trigger reflow for animation restart
-    card.classList.add('flip');
-
-    cardSound.currentTime = 0;
-    cardSound.play();
-
-    setTimeout(() => {
-      if(currentDeck.length === 0) {
-        // reshuffle if deck empty
-        currentDeck = shuffle([...deck]);
-      }
-      const drawn = currentDeck.pop();
-      // Build card front face
-      card.innerHTML = `
-        <div class="card-face front" style="color: ${drawn.suit === '♥' || drawn.suit === '♦' ? 'red' : 'black'}">
-          <div style="position:absolute;top:10px;left:10px;font-size:20px;">${drawn.rank}${drawn.suit}</div>
-          <div style="font-size:80px;">${drawn.suit}</div>
-          <div style="position:absolute;bottom:10px;right:10px;font-size:20px;transform: rotate(180deg);">${drawn.rank}${drawn.suit}</div>
-        </div>
-        <div class="card-face back"></div>
-      `;
-      cardResult.textContent = `Result: ${drawn.rank} of ${drawn.suit === '♠' ? 'Spades' : drawn.suit === '♥' ? 'Hearts' : drawn.suit === '♦' ? 'Diamonds' : 'Clubs'}`;
-      drawCardBtn.disabled = false;
-    }, 1000);
-  }
-  drawCardBtn.addEventListener('click', drawCard);
 </script>
+
+</body>
+</html>
+</section>
+
+<section id="coinSection" role="region" aria-labelledby="btnCoin">
+  <!-- Aquí va el código para moneda -->
+  <h1>Lanzar moneda</h1>
+  <p>Funcionalidad pendiente...</p>
+</section>
+
+<section id="cardSection" role="region" aria-labelledby="btnCard">
+  <!-- Aquí va el código para cartas -->
+  <h1>Extraer carta</h1>
+  <p>Funcionalidad pendiente...</p>
+</section>
+
+<script>
+  // Control básico para cambiar de sección y botones activos
+
+  const btnDice = document.getElementById('btnDice');
+  const btnCoin = document.getElementById('btnCoin');
+  const btnCard = document.getElementById('btnCard');
+
+  const diceSection = document.getElementById('diceSection');
+  const coinSection = document.getElementById('coinSection');
+  const cardSection = document.getElementById('cardSection');
+
+  function deactivateAll() {
+    btnDice.classList.remove('active');
+    btnDice.setAttribute('aria-selected', 'false');
+    btnCoin.classList.remove('active');
+    btnCoin.setAttribute('aria-selected', 'false');
+    btnCard.classList.remove('active');
+    btnCard.setAttribute('aria-selected', 'false');
+
+    diceSection.classList.remove('active');
+    coinSection.classList.remove('active');
+    cardSection.classList.remove('active');
+  }
+
+  btnDice.addEventListener('click', () => {
+    deactivateAll();
+    btnDice.classList.add('active');
+    btnDice.setAttribute('aria-selected', 'true');
+    diceSection.classList.add('active');
+  });
+  btnCoin.addEventListener('click', () => {
+    deactivateAll();
+    btnCoin.classList.add('active');
+    btnCoin.setAttribute('aria-selected', 'true');
+    coinSection.classList.add('active');
+  });
+  btnCard.addEventListener('click', () => {
+    deactivateAll();
+    btnCard.classList.add('active');
+    btnCard.setAttribute('aria-selected', 'true');
+    cardSection.classList.add('active');
+  });
+</script>
+
+<!-- Aquí agregas el script de dado íntegro solo para #diceSection -->
 
 </body>
 </html>
