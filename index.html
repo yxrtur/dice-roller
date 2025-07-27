@@ -121,11 +121,14 @@
 
  .dice-container {
     display: grid;
-    grid-template-columns: repeat(8, 200px);
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    max-width: calc(8 * 200px + 7 * 20px); /* máximo para 8 dados de 200px + gaps */
     gap: 20px;
-    width: fit-content;
     margin: 0 auto 30px auto;
     justify-content: center;
+    width: 100%;
+}
+
 }
 
   }
