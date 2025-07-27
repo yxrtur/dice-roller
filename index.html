@@ -35,7 +35,6 @@
     margin-bottom: 25px;
   }
 
-  /* Controls container updated */
   .controls {
     max-width: 420px;
     margin: 0 auto 25px auto;
@@ -43,13 +42,14 @@
     flex-direction: column;
     gap: 8px;
     width: 100%;
-    align-items: center;
+    /* Para que las líneas tengan mismo ancho */
   }
   .controls .line {
     display: flex;
     gap: 40px;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start; /* alinear a la izquierda, no centrar */
+    width: 100%; /* ancho completo para ambas líneas igual */
   }
   label {
     font-weight: bold;
@@ -117,6 +117,7 @@
     margin: 0;
     padding: 4px 0;
     user-select: none;
+    text-align: center;
   }
 
   .dice-container {
@@ -125,7 +126,7 @@
     flex-wrap: wrap;
     gap: 30px 20px;
     width: 100%;
-    max-width: 1280px; /* aumenta ancho para hasta 16 dados */
+    max-width: 1280px; /* para hasta 16 dados */
     margin-bottom: 30px;
   }
   .dice {
@@ -142,7 +143,6 @@
     color: #113;
     transition: all 0.3s ease;
   }
-  /* puntos */
   .dot {
     background: #113;
     border-radius: 50%;
@@ -150,7 +150,6 @@
     width: 20%;
     height: 20%;
   }
-  /* posiciones relativas en % */
   .dot1 { top: 12.5%; left: 12.5%; }
   .dot2 { top: 12.5%; left: 42.5%; }
   .dot3 { top: 12.5%; left: 72.5%; }
@@ -210,7 +209,6 @@
     text-decoration: underline;
   }
 
-  /* Shake animation */
   .shake {
     animation: shake 0.6s ease;
   }
@@ -223,7 +221,6 @@
     100% { transform: rotate(0deg); }
   }
 
-  /* Responsive tweaks */
   @media (max-width: 600px) {
     .controls {
       max-width: 100%;
@@ -231,7 +228,8 @@
     .controls .line {
       flex-direction: column;
       gap: 12px;
-      align-items: center;
+      align-items: flex-start; /* alinear izquierda en móvil */
+      width: 100%;
     }
     label {
       font-size: 16px;
@@ -282,7 +280,6 @@
 <p class="emphasis">Roll dice online</p>
 
 <div class="controls" role="form" aria-label="Dice controls">
-  <!-- Line 1 -->
   <div class="line line1">
     <label for="numDiceSelect">
       Number of dice
@@ -299,10 +296,8 @@
     </label>
   </div>
 
-  <!-- Or separator -->
   <div class="or-separator" aria-hidden="true">Or</div>
 
-  <!-- Line 2 -->
   <div class="line line2">
     <label for="numDiceInput">
       Enter dice count
@@ -430,16 +425,15 @@
   function initializeDice(num, faces) {
     diceContainer.innerHTML = '';
 
-    // Decide size y max dados por fila
     let maxPerRow, diceSize, maxContainerWidth;
 
     if (num < 12) {
       maxPerRow = 6;
       diceSize = 200;
-      maxContainerWidth = 6 * diceSize + 5 * 20; // gaps 20px entre dados
+      maxContainerWidth = 6 * diceSize + 5 * 20;
     } else {
       maxPerRow = 16;
-      maxContainerWidth = 16 * 90 + 15 * 20; // gaps 20px
+      maxContainerWidth = 16 * 90 + 15 * 20;
       diceSize = Math.floor((maxContainerWidth - (maxPerRow -1) * 20) / maxPerRow);
       diceSize = Math.max(40, diceSize);
     }
@@ -511,7 +505,6 @@
 
   rollBtn.addEventListener('click', rollDice);
 
-  // Inicializar con 1 dado 6 caras al cargar
   initializeDice(1, 6);
 </script>
 
