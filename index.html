@@ -47,14 +47,55 @@
     font-weight: bold;
     display: flex;
     align-items: center;
-    gap: 6px;
-  }
-  select, input[type="number"] {
-    margin-left: 8px;
-    padding: 5px 10px;
+    gap: 8px;
+    min-width: 160px;
     font-size: 16px;
-    width: 80px;
   }
+
+  /* Fancy select styles */
+  select, input[type="number"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: #f9f7f0;
+    border: 2px solid #8a8a72;
+    border-radius: 8px;
+    padding: 8px 38px 8px 14px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #2b2b1f;
+    width: 100px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+  }
+  select:focus, input[type="number"]:focus {
+    outline: none;
+    border-color: #556b2f;
+    box-shadow: 0 0 8px #8aad45;
+  }
+
+  /* Custom arrow for select */
+  select {
+    background-image:
+      linear-gradient(45deg, transparent 50%, #556b2f 50%),
+      linear-gradient(135deg, #556b2f 50%, transparent 50%),
+      linear-gradient(to right, #ccc, #ccc);
+    background-position:
+      calc(100% - 25px) calc(1em + 2px),
+      calc(100% - 20px) calc(1em + 2px),
+      calc(100% - 15px) 1.2em;
+    background-size: 5px 5px, 5px 5px, 1px 1.5em;
+    background-repeat: no-repeat;
+  }
+
+  /* Number inputs show arrow too but with default */
+  input[type="number"] {
+    padding-right: 14px;
+    cursor: text;
+  }
+
   .dice-container {
     display: flex;
     justify-content: center;
@@ -88,7 +129,7 @@
     width: 40px;
     height: 40px;
   }
-  /* Dot positions adjusted for 200px dice */
+  /* Dot positions for 200px dice */
   .dot1 { top: 25px; left: 25px; }
   .dot2 { top: 25px; left: 85px; }
   .dot3 { top: 25px; left: 145px; }
@@ -182,6 +223,10 @@
       width: 60px;
       font-size: 14px;
     }
+    label {
+      min-width: 140px;
+      font-size: 14px;
+    }
   }
 </style>
 </head>
@@ -202,7 +247,6 @@
 <div class="controls">
   <label for="numDiceSelect">Number of dice (select):</label>
   <select id="numDiceSelect">
-    <!-- 1 to 10 -->
     <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
     <option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option>
   </select>
@@ -212,7 +256,6 @@
 
   <label for="numFacesSelect">Number of faces (select):</label>
   <select id="numFacesSelect">
-    <!-- 2 to 20 -->
     <option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6" selected>6</option>
     <option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option>
     <option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option>
@@ -241,6 +284,7 @@
 </div>
 
 <script>
+  // Same JS as before - no change needed for fancy selects
   const diceContainer = document.getElementById('diceContainer');
   const rollBtn = document.getElementById('rollBtn');
   const numDiceSelect = document.getElementById('numDiceSelect');
@@ -249,7 +293,6 @@
   const numFacesInput = document.getElementById('numFacesInput');
   const resultDiv = document.getElementById('result');
 
-  // Dot positions for 6-face dice only
   const diceDotPositions = {
     1: ['dot5'],
     2: ['dot1', 'dot9'],
@@ -265,7 +308,6 @@
     return dot;
   }
 
-  // Render a dice face: dots if faces=6, else large number
   function renderDiceFace(value, faces) {
     const dice = document.createElement('div');
     dice.classList.add('dice');
@@ -286,7 +328,6 @@
     return dice;
   }
 
-  // Synchronize selects and inputs for dice count
   function syncDiceInputs(fromInput) {
     if (fromInput === 'select') {
       numDiceInput.value = numDiceSelect.value;
@@ -304,12 +345,13 @@
   }
   numDiceSelect.addEventListener('change', () => {
     syncDiceInputs('select');
+    initializeDice(parseInt(numDiceSelect.value), parseInt(numFacesInput.value));
   });
   numDiceInput.addEventListener('input', () => {
     syncDiceInputs('input');
+    initializeDice(Math.min(Math.max(parseInt(numDiceInput.value) || 1,1),100), parseInt(numFacesInput.value));
   });
 
-  // Synchronize selects and inputs for faces count
   function syncFacesInputs(fromInput) {
     if (fromInput === 'select') {
       numFacesInput.value = numFacesSelect.value;
@@ -327,20 +369,21 @@
   }
   numFacesSelect.addEventListener('change', () => {
     syncFacesInputs('select');
+    initializeDice(parseInt(numDiceInput.value), parseInt(numFacesSelect.value));
   });
   numFacesInput.addEventListener('input', () => {
     syncFacesInputs('input');
+    initializeDice(parseInt(numDiceInput.value), Math.min(Math.max(parseInt(numFacesInput.value) || 6,2),100));
   });
 
-  // Initialize dice faces with 1
   function initializeDice(num, faces) {
     diceContainer.innerHTML = '';
     for (let i = 0; i < num; i++) {
       diceContainer.appendChild(renderDiceFace(1, faces));
     }
+    resultDiv.textContent = 'Result: ';
   }
 
-  // Roll dice with shake animation, faces fixed during shake
   function rollDice() {
     const numDice = Math.min(Math.max(parseInt(numDiceInput.value), 1), 100);
     const numFaces = Math.min(Math.max(parseInt(numFacesInput.value), 2), 100);
@@ -350,7 +393,6 @@
 
     const diceElements = diceContainer.querySelectorAll('.dice');
 
-    // Add shake class
     diceElements.forEach(dice => dice.classList.add('shake'));
 
     setTimeout(() => {
@@ -377,35 +419,11 @@
       resultDiv.textContent = `Result: ${total}`;
       rollBtn.disabled = false;
     }, 600);
-
   }
-
-  // Initialize on load
-  function initialize() {
-    syncDiceInputs('select');
-    syncFacesInputs('select');
-    initializeDice(parseInt(numDiceInput.value), parseInt(numFacesInput.value));
-  }
-
-  numDiceSelect.addEventListener('change', () => {
-    initializeDice(parseInt(numDiceSelect.value), parseInt(numFacesInput.value));
-  });
-  numDiceInput.addEventListener('input', () => {
-    const numDice = Math.min(Math.max(parseInt(numDiceInput.value) || 1,1),100);
-    initializeDice(numDice, parseInt(numFacesInput.value));
-  });
-
-  numFacesSelect.addEventListener('change', () => {
-    initializeDice(parseInt(numDiceInput.value), parseInt(numFacesSelect.value));
-  });
-  numFacesInput.addEventListener('input', () => {
-    const numFaces = Math.min(Math.max(parseInt(numFacesInput.value) || 6,2),100);
-    initializeDice(parseInt(numDiceInput.value), numFaces);
-  });
 
   rollBtn.addEventListener('click', rollDice);
 
-  initialize();
+  initializeDice(parseInt(numDiceInput.value), parseInt(numFacesInput.value));
 </script>
 
 </body>
