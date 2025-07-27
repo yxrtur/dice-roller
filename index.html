@@ -265,17 +265,23 @@
 </h1>
 <p class="emphasis">Roll dice online</p>
 
-<div class="controls" role="form" aria-label="Dice controls">
-  <label for="numDiceSelect">Number of dice (select):</label>
+<!-- Replace the entire .controls section with this updated version -->
+<div class="controls" role="form" aria-label="Dice controls" style="grid-template-columns: 1fr 1fr;">
+  <!-- First line: number and face inputs -->
+  <label for="numDiceInput" style="font-size: 16px;">Number of dice:</label>
+  <input type="number" id="numDiceInput" min="1" max="100" value="1" step="1" aria-describedby="diceCountHelp" />
+
+  <label for="numFacesInput" style="font-size: 16px;">Number of faces:</label>
+  <input type="number" id="numFacesInput" min="2" max="100" value="6" step="1" aria-describedby="faceCountHelp" />
+
+  <!-- Second line: smaller labels and selectors -->
+  <label for="numDiceSelect" style="font-size: 14px; color: #555;">Or enter dice count:</label>
   <select id="numDiceSelect" aria-describedby="diceCountHelp">
     <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
     <option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option>
   </select>
 
-  <label for="numDiceInput">or enter dice count:</label>
-  <input type="number" id="numDiceInput" min="1" max="100" value="1" step="1" aria-describedby="diceCountHelp" />
-
-  <label for="numFacesSelect">Number of faces (select):</label>
+  <label for="numFacesSelect" style="font-size: 14px; color: #555;">Face count:</label>
   <select id="numFacesSelect" aria-describedby="faceCountHelp">
     <option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6" selected>6</option>
     <option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option>
@@ -283,10 +289,8 @@
     <option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option>
     <option value="19">19</option><option value="20">20</option>
   </select>
-
-  <label for="numFacesInput">or enter face count:</label>
-  <input type="number" id="numFacesInput" min="2" max="100" value="6" step="1" aria-describedby="faceCountHelp" />
 </div>
+
 
 <div class="dice-container" id="diceContainer" aria-live="polite" aria-atomic="true"></div>
 
