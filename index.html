@@ -35,7 +35,7 @@
     margin-bottom: 25px;
   }
 
-  /* Controls container */
+  /* Controls container updated */
   .controls {
     max-width: 420px;
     margin: 0 auto 25px auto;
@@ -43,34 +43,23 @@
     flex-direction: column;
     gap: 8px;
     width: 100%;
+    align-items: center; /* Centra horizontalmente */
   }
-  /* Each line flex container */
   .controls .line {
     display: flex;
     gap: 40px;
     align-items: center;
+    justify-content: center; /* centra contenido de cada línea */
   }
-  /* First line label styling */
-  .line1 label {
+  label {
     font-weight: bold;
     font-size: 16px;
+    text-transform: capitalize;
     white-space: nowrap;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
   }
-  /* Second line label styling */
-  .line2 {
-    font-size: 14px;
-    color: #555;
-  }
-  .line2 label {
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
   select {
     width: 80px;
     appearance: none;
@@ -108,7 +97,7 @@
     border: 2px solid #8a8a72;
     border-radius: 8px;
     padding: 6px 10px;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 600;
     color: #2b2b1f;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
@@ -119,6 +108,15 @@
     outline: none;
     border-color: #556b2f;
     box-shadow: 0 0 8px #8aad45;
+  }
+
+  .or-separator {
+    font-weight: bold;
+    font-size: 18px;
+    color: #555;
+    margin: 0;
+    padding: 4px 0;
+    user-select: none;
   }
 
   .dice-container {
@@ -235,9 +233,9 @@
     .controls .line {
       flex-direction: column;
       gap: 12px;
-      align-items: flex-start;
+      align-items: center; /* cambia a centro para columnas */
     }
-    .line1 label, .line2 label {
+    label {
       font-size: 16px;
       white-space: normal;
     }
@@ -302,6 +300,9 @@
       </select>
     </label>
   </div>
+
+  <!-- Or separator -->
+  <div class="or-separator" aria-hidden="true">Or</div>
 
   <!-- Line 2 -->
   <div class="line line2">
@@ -460,20 +461,4 @@
             dice.appendChild(createDot(dotClass));
           });
         } else {
-          dice.style.fontSize = '120px';
-          dice.style.color = '#113';
-          dice.textContent = roll;
-        }
-      });
-      resultDiv.textContent = `Result: ${total}`;
-      rollBtn.disabled = false;
-    }, 600);
-  }
-
-  rollBtn.addEventListener('click', rollDice);
-
-  initializeDice(parseInt(numDiceInput.value), parseInt(numFacesInput.value));
-</script>
-
-</body>
-</html>
+          dice.style.fontSize = '
