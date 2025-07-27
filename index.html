@@ -119,14 +119,15 @@
     user-select: none;
   }
 
-  .dice-container {
-    display: flex;
+ .dice-container {
+    display: grid;
+    grid-template-columns: repeat(8, 200px);
+    gap: 20px;
+    width: fit-content;
+    margin: 0 auto 30px auto;
     justify-content: center;
-    flex-wrap: wrap;
-    gap: 40px;
-    width: 100%;
-    max-width: 800px;
-    margin-bottom: 30px;
+}
+
   }
   .dice {
     background: #d6ccb6;
