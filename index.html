@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Dado virtual</title>
+<title>Virtual Dice</title>
 <style>
   body {
     background: #d6ccb6;
@@ -33,7 +33,7 @@
   }
   .dice-container {
     display: inline-flex;
-    gap: 20px;
+    gap: 25px;
     flex-wrap: wrap;
     justify-content: center;
     margin-bottom: 20px;
@@ -41,29 +41,30 @@
   .dice {
     background: #d6ccb6;
     border: 1px solid #999;
-    width: 90px;
-    height: 90px;
+    width: 120px;
+    height: 120px;
     border-radius: 8px;
     position: relative;
     box-shadow: inset 0 0 5px #bbb;
+    user-select: none;
   }
   .dot {
     background: #113;
     border-radius: 50%;
     position: absolute;
-    width: 18px;
-    height: 18px;
+    width: 24px;
+    height: 24px;
   }
-  /* Dot positions for 6-face dice */
-  .dot1 { top: 12px; left: 12px; }
-  .dot2 { top: 12px; left: 36px; }
-  .dot3 { top: 12px; left: 60px; }
-  .dot4 { top: 36px; left: 12px; }
-  .dot5 { top: 36px; left: 36px; }
-  .dot6 { top: 36px; left: 60px; }
-  .dot7 { top: 60px; left: 12px; }
-  .dot8 { top: 60px; left: 36px; }
-  .dot9 { top: 60px; left: 60px; }
+  /* Adjusted dot positions for bigger dice */
+  .dot1 { top: 16px; left: 16px; }
+  .dot2 { top: 16px; left: 52px; }
+  .dot3 { top: 16px; left: 88px; }
+  .dot4 { top: 52px; left: 16px; }
+  .dot5 { top: 52px; left: 52px; }
+  .dot6 { top: 52px; left: 88px; }
+  .dot7 { top: 88px; left: 16px; }
+  .dot8 { top: 88px; left: 52px; }
+  .dot9 { top: 88px; left: 88px; }
 
   button {
     font-size: 20px;
@@ -90,50 +91,68 @@
     color: #444;
     text-decoration: underline;
   }
+
+  /* Shake animation */
+  .shake {
+    animation: shake 0.6s ease;
+  }
+  @keyframes shake {
+    0%   { transform: rotate(0deg); }
+    20%  { transform: rotate(15deg); }
+    40%  { transform: rotate(-15deg); }
+    60%  { transform: rotate(10deg); }
+    80%  { transform: rotate(-10deg); }
+    100% { transform: rotate(0deg); }
+  }
 </style>
 </head>
 <body>
 
 <h1>
-  <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="64" rx="10" ry="10" fill="#d6ccb6" stroke="#333" stroke-width="2"/><circle cx="20" cy="20" r="6" fill="#113"/><circle cx="44" cy="20" r="6" fill="#113"/><circle cx="20" cy="44" r="6" fill="#113"/><circle cx="44" cy="44" r="6" fill="#113"/></svg>
-  Dado virtual
+  <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="64" height="64" rx="10" ry="10" fill="#d6ccb6" stroke="#333" stroke-width="2"/>
+    <circle cx="20" cy="20" r="6" fill="#113"/>
+    <circle cx="44" cy="20" r="6" fill="#113"/>
+    <circle cx="20" cy="44" r="6" fill="#113"/>
+    <circle cx="44" cy="44" r="6" fill="#113"/>
+  </svg>
+  Virtual Dice
 </h1>
-<p><em>Tirar dados online</em></p>
+<p><em>Roll dice online</em></p>
 
 <div class="controls">
-  <label for="numDice">Número de dados:</label>
+  <label for="numDice">Number of dice:</label>
   <select id="numDice">
-    <option value="1">1 dado</option>
-    <option value="2">2 dados</option>
-    <option value="3">3 dados</option>
-    <option value="4">4 dados</option>
-    <option value="5">5 dados</option>
-    <option value="6">6 dados</option>
+    <option value="1">1 die</option>
+    <option value="2">2 dice</option>
+    <option value="3">3 dice</option>
+    <option value="4">4 dice</option>
+    <option value="5">5 dice</option>
+    <option value="6">6 dice</option>
+    <option value="7">7 dice</option>
+    <option value="8">8 dice</option>
+    <option value="9">9 dice</option>
+    <option value="10">10 dice</option>
   </select>
 
-  <label for="numFaces">Número de caras:</label>
-  <select id="numFaces">
-    <option value="4">4 caras</option>
-    <option value="6" selected>6 caras</option>
-    <option value="8">8 caras</option>
-    <option value="10">10 caras</option>
-    <option value="12">12 caras</option>
-    <option value="20">20 caras</option>
+  <label for="numFaces">Number of faces:</label>
+  <select id="numFaces" disabled>
+    <option value="6" selected>6 faces</option>
   </select>
 </div>
 
 <div class="dice-container" id="diceContainer"></div>
 
-<button id="rollBtn">Tirar</button>
+<button id="rollBtn">Roll</button>
 
-<div id="result">Resultado: </div>
+<div id="result">Result: </div>
 
 <div class="instructions">
-  <p>Este es un simulador de dados online. Puede elegir la cantidad de dados y el número de caras.</p>
+  <p>This is an online dice simulator. You can select the number of dice (up to 10) to roll.</p>
   <ol>
-    <li>Seleccione el número de dados y caras.</li>
-    <li>Haga clic en <strong>Tirar</strong> para lanzar los dados.</li>
-    <li>El resultado mostrará la suma total de todos los dados lanzados.</li>
+    <li>Select the number of dice.</li>
+    <li>Click <strong>Roll</strong> to roll the dice.</li>
+    <li>The result will display the total sum of all dice rolled.</li>
   </ol>
 </div>
 
@@ -150,9 +169,7 @@
     return dot;
   }
 
-  // Positions for dots on a 6-face dice
-  // We'll only support 6-face dice dots visual for simplicity,
-  // For other dice types, we just show the number.
+  // Dot positions for 6-face dice only
   const diceDotPositions = {
     1: ['dot5'],
     2: ['dot1', 'dot9'],
@@ -162,44 +179,62 @@
     6: ['dot1', 'dot2', 'dot3', 'dot7', 'dot8', 'dot9']
   };
 
-  function renderDiceFace(value, faces) {
+  // Render dice face with dots
+  function renderDiceFace(value) {
     const dice = document.createElement('div');
     dice.classList.add('dice');
+    dice.dataset.value = value; // store value for convenience
 
-    if (faces === 6 && diceDotPositions[value]) {
-      diceDotPositions[value].forEach(dotClass => {
-        dice.appendChild(createDot(dotClass));
-      });
-    } else {
-      // For non-6-faced dice, just show the number
-      dice.textContent = value;
-      dice.style.fontSize = '40px';
-      dice.style.lineHeight = '90px';
-      dice.style.fontWeight = 'bold';
-      dice.style.color = '#113';
-    }
+    diceDotPositions[value].forEach(dotClass => {
+      dice.appendChild(createDot(dotClass));
+    });
+
     return dice;
   }
 
+  // Animate dice shaking, then show new roll
   function rollDice() {
-    diceContainer.innerHTML = '';
     const numDice = +numDiceSelect.value;
-    const numFaces = +numFacesSelect.value;
-    let total = 0;
+    diceContainer.innerHTML = '';
 
+    // Create dice elements with a random face initially for shake effect
     for (let i = 0; i < numDice; i++) {
-      const roll = Math.floor(Math.random() * numFaces) + 1;
-      total += roll;
-      diceContainer.appendChild(renderDiceFace(roll, numFaces));
+      const randomFace = Math.floor(Math.random() * 6) + 1;
+      const dice = renderDiceFace(randomFace);
+      dice.classList.add('shake');
+      diceContainer.appendChild(dice);
     }
-    resultDiv.textContent = `Resultado: ${total}`;
-  }
 
-  rollBtn.addEventListener('click', rollDice);
+    resultDiv.textContent = 'Rolling...';
+
+    // After animation, set final dice values
+    setTimeout(() => {
+      let total = 0;
+      const diceElements = diceContainer.querySelectorAll('.dice');
+      diceElements.forEach(dice => {
+        dice.classList.remove('shake');
+        const roll = Math.floor(Math.random() * 6) + 1;
+        total += roll;
+        // Clear dots and add new ones
+        dice.innerHTML = '';
+        diceDotPositions[roll].forEach(dotClass => {
+          dice.appendChild(createDot(dotClass));
+        });
+        dice.dataset.value = roll;
+      });
+      resultDiv.textContent = `Result: ${total}`;
+    }, 600);
+  }
 
   // Initial roll on page load
   rollDice();
+
+  rollBtn.addEventListener('click', rollDice);
+
+  // Disable faces selection since only 6 faces supported
+  numFacesSelect.disabled = true;
 </script>
 
 </body>
 </html>
+
