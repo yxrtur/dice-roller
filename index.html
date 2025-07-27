@@ -103,3 +103,105 @@
 
     @media (max-width: 600px) {
       .controls {
+        grid-template-columns: auto auto;
+        gap: 10px;
+      }
+
+      .controls label {
+        text-align: left;
+      }
+
+      .dice {
+        width: 140px;
+        height: 140px;
+        font-size: 48px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Dice Roller</h1>
+
+  <div class="controls">
+    <label for="fixedDiceCount">Select number of dice</label>
+    <select id="fixedDiceCount">
+      <option value="1">1</option>
+      <option value="2" selected>2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+      <option value="10">10</option>
+    </select>
+
+    <label for="customDiceCount">Or type amount</label>
+    <input type="number" id="customDiceCount" min="1" max="20" placeholder="2" />
+    
+    <label for="faces">Faces per dice</label>
+    <input type="number" id="faces" min="2" max="20" value="6" />
+  </div>
+
+  <div id="diceContainer"></div>
+
+  <button id="rollBtn">Roll</button>
+
+  <script>
+    const diceContainer = document.getElementById("diceContainer");
+    const rollBtn = document.getElementById("rollBtn");
+    const fixedDiceCount = document.getElementById("fixedDiceCount");
+    const customDiceCount = document.getElementById("customDiceCount");
+    const facesInput = document.getElementById("faces");
+
+    function getDiceCount() {
+      const custom = parseInt(customDiceCount.value);
+      if (!isNaN(custom) && custom > 0 && custom <= 20) {
+        return custom;
+      }
+      return parseInt(fixedDiceCount.value);
+    }
+
+    function createDiceElements(count) {
+      diceContainer.innerHTML = "";
+      for (let i = 0; i < count; i++) {
+        const div = document.createElement("div");
+        div.className = "dice";
+        div.textContent = "?";
+        diceContainer.appendChild(div);
+      }
+    }
+
+    function rollDice() {
+      const diceCount = getDiceCount();
+      const faces = Math.min(Math.max(parseInt(facesInput.value), 2), 20);
+      const diceElements = document.querySelectorAll(".dice");
+
+      diceElements.forEach(die => {
+        die.classList.add("shaking");
+        die.textContent = "?";
+      });
+
+      setTimeout(() => {
+        diceElements.forEach(die => {
+          const roll = Math.floor(Math.random() * faces) + 1;
+          die.textContent = roll;
+          die.classList.remove("shaking");
+        });
+      }, 400);
+    }
+
+    // Initialize
+    createDiceElements(getDiceCount());
+
+    rollBtn.addEventListener("click", () => {
+      const count = getDiceCount();
+      createDiceElements(count);
+      rollDice();
+    });
+  </script>
+
+</body>
+</html>
