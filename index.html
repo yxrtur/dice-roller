@@ -8,9 +8,14 @@
   body {
     background: #d6ccb6;
     font-family: Arial, sans-serif;
-    text-align: center;
-    padding: 30px;
     color: #333;
+    margin: 0;
+    padding: 30px 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    box-sizing: border-box;
   }
   h1 {
     font-weight: normal;
@@ -18,67 +23,100 @@
     justify-content: center;
     align-items: center;
     gap: 10px;
+    margin-bottom: 5px;
   }
   h1 svg {
     width: 30px;
     height: 30px;
   }
+  p.emphasis {
+    font-style: italic;
+    margin-top: 0;
+    margin-bottom: 25px;
+  }
   .controls {
-    margin: 15px 0 30px;
+    margin-bottom: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    max-width: 480px;
+  }
+  label {
+    font-weight: bold;
   }
   select {
-    margin: 0 15px;
+    margin-left: 8px;
     padding: 5px 10px;
     font-size: 16px;
   }
   .dice-container {
-    display: inline-flex;
-    gap: 25px;
-    flex-wrap: wrap;
+    display: flex;
     justify-content: center;
-    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 30px;
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 30px;
   }
   .dice {
     background: #d6ccb6;
     border: 1px solid #999;
-    width: 120px;
-    height: 120px;
+    width: 160px;
+    height: 160px;
     border-radius: 8px;
     position: relative;
     box-shadow: inset 0 0 5px #bbb;
     user-select: none;
+    transition: transform 0.3s ease;
   }
   .dot {
     background: #113;
     border-radius: 50%;
     position: absolute;
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
   }
-  /* Adjusted dot positions for bigger dice */
-  .dot1 { top: 16px; left: 16px; }
-  .dot2 { top: 16px; left: 52px; }
-  .dot3 { top: 16px; left: 88px; }
-  .dot4 { top: 52px; left: 16px; }
-  .dot5 { top: 52px; left: 52px; }
-  .dot6 { top: 52px; left: 88px; }
-  .dot7 { top: 88px; left: 16px; }
-  .dot8 { top: 88px; left: 52px; }
-  .dot9 { top: 88px; left: 88px; }
+  /* Dot positions adjusted for 160px dice */
+  .dot1 { top: 20px; left: 20px; }
+  .dot2 { top: 20px; left: 68px; }
+  .dot3 { top: 20px; left: 116px; }
+  .dot4 { top: 68px; left: 20px; }
+  .dot5 { top: 68px; left: 68px; }
+  .dot6 { top: 68px; left: 116px; }
+  .dot7 { top: 116px; left: 20px; }
+  .dot8 { top: 116px; left: 68px; }
+  .dot9 { top: 116px; left: 116px; }
 
-  button {
-    font-size: 20px;
-    padding: 8px 20px;
+  button#rollBtn {
+    font-size: 24px;
+    padding: 12px 30px;
     cursor: pointer;
+    border: none;
+    border-radius: 6px;
+    background-color: #4a5a35;
+    color: #eee;
+    box-shadow: 0 4px 7px rgba(0,0,0,0.3);
+    transition: background-color 0.3s ease;
+  }
+  button#rollBtn:hover:not(:disabled) {
+    background-color: #3d4729;
+  }
+  button#rollBtn:disabled {
+    background-color: #999;
+    cursor: default;
+    box-shadow: none;
   }
 
   #result {
-    margin-top: 10px;
+    margin-top: 15px;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 20px;
+    min-height: 24px;
   }
   .instructions {
-    margin-top: 30px;
+    margin-top: 35px;
     max-width: 700px;
     text-align: left;
     font-size: 14px;
@@ -104,6 +142,32 @@
     80%  { transform: rotate(-10deg); }
     100% { transform: rotate(0deg); }
   }
+
+  /* Responsive tweaks */
+  @media (max-width: 480px) {
+    .dice {
+      width: 110px;
+      height: 110px;
+    }
+    .dot {
+      width: 22px;
+      height: 22px;
+    }
+    .dot1 { top: 14px; left: 14px; }
+    .dot2 { top: 14px; left: 46px; }
+    .dot3 { top: 14px; left: 78px; }
+    .dot4 { top: 46px; left: 14px; }
+    .dot5 { top: 46px; left: 46px; }
+    .dot6 { top: 46px; left: 78px; }
+    .dot7 { top: 78px; left: 14px; }
+    .dot8 { top: 78px; left: 46px; }
+    .dot9 { top: 78px; left: 78px; }
+    button#rollBtn {
+      width: 100%;
+      font-size: 20px;
+      padding: 12px 0;
+    }
+  }
 </style>
 </head>
 <body>
@@ -118,7 +182,7 @@
   </svg>
   Virtual Dice
 </h1>
-<p><em>Roll dice online</em></p>
+<p class="emphasis">Roll dice online</p>
 
 <div class="controls">
   <label for="numDice">Number of dice:</label>
@@ -141,11 +205,11 @@
   </select>
 </div>
 
-<div class="dice-container" id="diceContainer"></div>
+<div class="dice-container" id="diceContainer" aria-live="polite" aria-atomic="true"></div>
 
-<button id="rollBtn">Roll</button>
+<button id="rollBtn" aria-label="Roll the dice">Roll</button>
 
-<div id="result">Result: </div>
+<div id="result" aria-live="polite" aria-atomic="true">Result: </div>
 
 <div class="instructions">
   <p>This is an online dice simulator. You can select the number of dice (up to 10) to roll.</p>
@@ -160,14 +224,7 @@
   const diceContainer = document.getElementById('diceContainer');
   const rollBtn = document.getElementById('rollBtn');
   const numDiceSelect = document.getElementById('numDice');
-  const numFacesSelect = document.getElementById('numFaces');
   const resultDiv = document.getElementById('result');
-
-  function createDot(className) {
-    const dot = document.createElement('div');
-    dot.classList.add('dot', className);
-    return dot;
-  }
 
   // Dot positions for 6-face dice only
   const diceDotPositions = {
@@ -179,11 +236,16 @@
     6: ['dot1', 'dot2', 'dot3', 'dot7', 'dot8', 'dot9']
   };
 
-  // Render dice face with dots
+  function createDot(className) {
+    const dot = document.createElement('div');
+    dot.classList.add('dot', className);
+    return dot;
+  }
+
   function renderDiceFace(value) {
     const dice = document.createElement('div');
     dice.classList.add('dice');
-    dice.dataset.value = value; // store value for convenience
+    dice.dataset.value = value;
 
     diceDotPositions[value].forEach(dotClass => {
       dice.appendChild(createDot(dotClass));
@@ -192,49 +254,56 @@
     return dice;
   }
 
-  // Animate dice shaking, then show new roll
+  // Render initial dice with face 1
+  function initializeDice(num) {
+    diceContainer.innerHTML = '';
+    for (let i = 0; i < num; i++) {
+      diceContainer.appendChild(renderDiceFace(1));
+    }
+  }
+
+  // Roll dice with shake animation, dice faces do NOT change while shaking
   function rollDice() {
     const numDice = +numDiceSelect.value;
-    diceContainer.innerHTML = '';
-
-    // Create dice elements with a random face initially for shake effect
-    for (let i = 0; i < numDice; i++) {
-      const randomFace = Math.floor(Math.random() * 6) + 1;
-      const dice = renderDiceFace(randomFace);
-      dice.classList.add('shake');
-      diceContainer.appendChild(dice);
-    }
-
+    rollBtn.disabled = true;
     resultDiv.textContent = 'Rolling...';
 
-    // After animation, set final dice values
+    // Add shake class to existing dice
+    const diceElements = diceContainer.querySelectorAll('.dice');
+    diceElements.forEach(dice => dice.classList.add('shake'));
+
+    // After 600ms, update dice faces and result
     setTimeout(() => {
       let total = 0;
-      const diceElements = diceContainer.querySelectorAll('.dice');
       diceElements.forEach(dice => {
         dice.classList.remove('shake');
         const roll = Math.floor(Math.random() * 6) + 1;
         total += roll;
-        // Clear dots and add new ones
+        // Clear dots
         dice.innerHTML = '';
+        dice.dataset.value = roll;
         diceDotPositions[roll].forEach(dotClass => {
           dice.appendChild(createDot(dotClass));
         });
-        dice.dataset.value = roll;
       });
       resultDiv.textContent = `Result: ${total}`;
+      rollBtn.disabled = false;
     }, 600);
   }
 
-  // Initial roll on page load
-  rollDice();
+  // Initialize dice on page load and when number changes
+  numDiceSelect.addEventListener('change', () => {
+    initializeDice(+numDiceSelect.value);
+    resultDiv.textContent = 'Result: ';
+  });
+
+  // Initial setup
+  initializeDice(+numDiceSelect.value);
 
   rollBtn.addEventListener('click', rollDice);
-
-  // Disable faces selection since only 6 faces supported
-  numFacesSelect.disabled = true;
 </script>
 
 </body>
 </html>
+
 
