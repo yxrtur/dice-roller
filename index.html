@@ -2,54 +2,60 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dice Roller</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f0f0f0;
+      background: #f2f2f2;
+      margin: 0;
+      padding: 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 30px 15px;
     }
 
     h1 {
-      margin-bottom: 20px;
       text-align: center;
+      margin-bottom: 20px;
     }
 
     .controls {
-      display: grid;
-      grid-template-columns: auto 100px;
-      gap: 12px 20px;
-      max-width: 400px;
-      margin-bottom: 25px;
-      align-items: center;
-      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px 30px;
+      max-width: 700px;
+      margin-bottom: 30px;
     }
 
-    .controls label {
-      text-align: right;
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      min-width: 120px;
+    }
+
+    .control-group label {
+      margin-bottom: 5px;
+      font-weight: bold;
       text-transform: capitalize;
-      font-size: 16px;
     }
 
-    .controls select,
-    .controls input[type="number"] {
+    .control-group select,
+    .control-group input {
+      font-size: 16px;
       padding: 6px 10px;
-      font-size: 16px;
-      text-align: center;
-      width: 100%;
       box-sizing: border-box;
+      text-align: center;
     }
 
-    #customDiceCount {
+    input[type="number"] {
       width: 60px;
     }
 
     #fixedDiceCount {
-      width: 120px;
+      width: 100px;
     }
 
     #diceContainer {
@@ -65,18 +71,18 @@
       height: 200px;
       background: white;
       border: 2px solid #ccc;
+      border-radius: 12px;
+      font-size: 60px;
+      font-weight: bold;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 64px;
-      font-weight: bold;
-      border-radius: 12px;
-      box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
-      transition: transform 0.4s;
+      box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+      transition: transform 0.3s;
     }
 
     .shaking {
-      animation: shake 0.4s;
+      animation: shake 0.4s ease-in-out;
     }
 
     @keyframes shake {
@@ -87,34 +93,35 @@
       100% { transform: rotate(0deg); }
     }
 
-    #rollBtn {
+    button {
       padding: 12px 24px;
       font-size: 18px;
-      background: #0077cc;
+      background: #007acc;
       color: white;
       border: none;
       border-radius: 6px;
       cursor: pointer;
     }
 
-    #rollBtn:hover {
+    button:hover {
       background: #005fa3;
     }
 
     @media (max-width: 600px) {
-      .controls {
-        grid-template-columns: auto auto;
-        gap: 10px;
-      }
-
-      .controls label {
-        text-align: left;
-      }
-
       .dice {
-        width: 140px;
-        height: 140px;
-        font-size: 48px;
+        width: 130px;
+        height: 130px;
+        font-size: 42px;
+      }
+
+      .control-group {
+        width: 100%;
+        align-items: center;
+      }
+
+      .control-group input,
+      .control-group select {
+        width: 100%;
       }
     }
   </style>
@@ -124,25 +131,31 @@
   <h1>Dice Roller</h1>
 
   <div class="controls">
-    <label for="fixedDiceCount">Select number of dice</label>
-    <select id="fixedDiceCount">
-      <option value="1">1</option>
-      <option value="2" selected>2</option>
-      <option value="3">3</option>
-      <option value="4">4</option>
-      <option value="5">5</option>
-      <option value="6">6</option>
-      <option value="7">7</option>
-      <option value="8">8</option>
-      <option value="9">9</option>
-      <option value="10">10</option>
-    </select>
+    <div class="control-group">
+      <label for="fixedDiceCount">Number of dice</label>
+      <select id="fixedDiceCount">
+        <option value="1">1</option>
+        <option value="2" selected>2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+      </select>
+    </div>
 
-    <label for="customDiceCount">Or type amount</label>
-    <input type="number" id="customDiceCount" min="1" max="20" placeholder="2" />
-    
-    <label for="faces">Faces per dice</label>
-    <input type="number" id="faces" min="2" max="20" value="6" />
+    <div class="control-group">
+      <label for="customDiceCount">Custom dice count</label>
+      <input type="number" id="customDiceCount" placeholder="2" min="1" max="20"/>
+    </div>
+
+    <div class="control-group">
+      <label for="faces">Faces per dice</label>
+      <input type="number" id="faces" value="6" min="2" max="20"/>
+    </div>
   </div>
 
   <div id="diceContainer"></div>
@@ -167,33 +180,32 @@
     function createDiceElements(count) {
       diceContainer.innerHTML = "";
       for (let i = 0; i < count; i++) {
-        const div = document.createElement("div");
-        div.className = "dice";
-        div.textContent = "?";
-        diceContainer.appendChild(div);
+        const die = document.createElement("div");
+        die.className = "dice";
+        die.textContent = "?";
+        diceContainer.appendChild(die);
       }
     }
 
     function rollDice() {
-      const diceCount = getDiceCount();
       const faces = Math.min(Math.max(parseInt(facesInput.value), 2), 20);
-      const diceElements = document.querySelectorAll(".dice");
+      const dice = document.querySelectorAll(".dice");
 
-      diceElements.forEach(die => {
+      dice.forEach(die => {
         die.classList.add("shaking");
         die.textContent = "?";
       });
 
       setTimeout(() => {
-        diceElements.forEach(die => {
-          const roll = Math.floor(Math.random() * faces) + 1;
-          die.textContent = roll;
+        dice.forEach(die => {
+          const result = Math.floor(Math.random() * faces) + 1;
+          die.textContent = result;
           die.classList.remove("shaking");
         });
       }, 400);
     }
 
-    // Initialize
+    // Initial render
     createDiceElements(getDiceCount());
 
     rollBtn.addEventListener("click", () => {
@@ -202,6 +214,5 @@
       rollDice();
     });
   </script>
-
 </body>
 </html>
