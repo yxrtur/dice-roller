@@ -35,7 +35,7 @@
     margin-bottom: 25px;
   }
 
-  /* Controls container */
+  /* Controls container updated */
   .controls {
     max-width: 420px;
     margin: 0 auto 25px auto;
@@ -43,13 +43,13 @@
     flex-direction: column;
     gap: 8px;
     width: 100%;
-    align-items: center;
+    align-items: center; /* Center horizontally */
   }
   .controls .line {
     display: flex;
     gap: 40px;
     align-items: center;
-    justify-content: center;
+    justify-content: center; /* center content inside line */
   }
   label {
     font-weight: bold;
@@ -119,50 +119,47 @@
     user-select: none;
   }
 
-  /* Dice container with grid: max 6 dice per row */
   .dice-container {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 30px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px 20px;
     width: 100%;
     max-width: 800px;
     margin-bottom: 30px;
-    justify-items: center;
   }
   .dice {
+    position: relative;
     background: #d6ccb6;
     border: 1px solid #999;
     border-radius: 8px;
-    position: relative;
     box-shadow: inset 0 0 5px #bbb;
     user-select: none;
-    transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease, font-size 0.3s ease;
     display: flex;
     justify-content: center;
     align-items: center;
     font-weight: bold;
     color: #113;
+    transition: all 0.3s ease;
   }
+  /* puntos */
   .dot {
     background: #113;
     border-radius: 50%;
     position: absolute;
+    width: 20%;
+    height: 20%;
   }
-
-  /* Dot sizes and positions for dice at default size */
-  .dot {
-    width: 40px;
-    height: 40px;
-  }
-  .dot1 { top: 25px; left: 25px; }
-  .dot2 { top: 25px; left: 85px; }
-  .dot3 { top: 25px; left: 145px; }
-  .dot4 { top: 85px; left: 25px; }
-  .dot5 { top: 85px; left: 85px; }
-  .dot6 { top: 85px; left: 145px; }
-  .dot7 { top: 145px; left: 25px; }
-  .dot8 { top: 145px; left: 85px; }
-  .dot9 { top: 145px; left: 145px; }
+  /* posiciones relativas en % */
+  .dot1 { top: 12.5%; left: 12.5%; }
+  .dot2 { top: 12.5%; left: 42.5%; }
+  .dot3 { top: 12.5%; left: 72.5%; }
+  .dot4 { top: 42.5%; left: 12.5%; }
+  .dot5 { top: 42.5%; left: 42.5%; }
+  .dot6 { top: 42.5%; left: 72.5%; }
+  .dot7 { top: 72.5%; left: 12.5%; }
+  .dot8 { top: 72.5%; left: 42.5%; }
+  .dot9 { top: 72.5%; left: 72.5%; }
 
   button#rollBtn {
     font-size: 24px;
@@ -234,7 +231,7 @@
     .controls .line {
       flex-direction: column;
       gap: 12px;
-      align-items: center;
+      align-items: center; /* cambia a centro para columnas */
     }
     label {
       font-size: 16px;
@@ -302,6 +299,7 @@
     </label>
   </div>
 
+  <!-- Or separator -->
   <div class="or-separator" aria-hidden="true">Or</div>
 
   <!-- Line 2 -->
@@ -363,7 +361,6 @@
     dice.classList.add('dice');
     dice.dataset.value = value;
 
-    // Apply dynamic size
     dice.style.width = size + 'px';
     dice.style.height = size + 'px';
 
@@ -371,17 +368,148 @@
       dice.style.fontSize = (size * 0.6) + 'px';
       dice.style.color = '#113';
       dice.innerHTML = '';
-      // Adjust dot sizes and positions relative to dice size
-      const dotSize = size * 0.2;
       diceDotPositions[value].forEach(dotClass => {
         const dot = createDot(dotClass);
-        dot.style.width = dotSize + 'px';
-        dot.style.height = dotSize + 'px';
+        dice.appendChild(dot);
+      });
+    } else {
+      dice.style.fontSize = (size * 0.6) + 'px';
+      dice.style.color = '#113';
+      dice.textContent = value;
+    }
+    return dice;
+  }
 
-        // Adjust dot position based on dice size (scale factor ~200px original)
-        const basePos = {
-          dot1: {top: 25, left: 25},
-          dot2: {top: 25, left: 85},
-          dot3: {top: 25, left: 145},
-          dot4: {top: 85, left: 25},
-          dot5:
+  function syncDiceInputs(fromInput) {
+    if (fromInput === 'select') {
+      numDiceInput.value = numDiceSelect.value;
+    } else {
+      let val = parseInt(numDiceInput.value);
+      if (isNaN(val) || val < 1) val = 1;
+      if (val > 100) val = 100;
+      numDiceInput.value = val;
+      if (val <= 10) {
+        numDiceSelect.value = val.toString();
+      } else {
+        numDiceSelect.value = '';
+      }
+    }
+  }
+  numDiceSelect.addEventListener('change', () => {
+    syncDiceInputs('select');
+    initializeDice(parseInt(numDiceSelect.value), parseInt(numFacesInput.value));
+  });
+  numDiceInput.addEventListener('input', () => {
+    syncDiceInputs('input');
+    initializeDice(Math.min(Math.max(parseInt(numDiceInput.value) || 1,1),100), parseInt(numFacesInput.value));
+  });
+
+  function syncFacesInputs(fromInput) {
+    if (fromInput === 'select') {
+      numFacesInput.value = numFacesSelect.value;
+    } else {
+      let val = parseInt(numFacesInput.value);
+      if (isNaN(val) || val < 2) val = 2;
+      if (val > 100) val = 100;
+      numFacesInput.value = val;
+      if (val <= 20) {
+        numFacesSelect.value = val.toString();
+      } else {
+        numFacesSelect.value = '';
+      }
+    }
+  }
+  numFacesSelect.addEventListener('change', () => {
+    syncFacesInputs('select');
+    initializeDice(parseInt(numDiceInput.value), parseInt(numFacesSelect.value));
+  });
+  numFacesInput.addEventListener('input', () => {
+    syncFacesInputs('input');
+    initializeDice(parseInt(numDiceInput.value), Math.min(Math.max(parseInt(numFacesInput.value) || 6,2),100));
+  });
+
+  function initializeDice(num, faces) {
+    diceContainer.innerHTML = '';
+
+    const maxContainerWidth = 800;
+    const maxDicePerRow = 6;
+    const gapX = 20; // horizontal gap px
+    const totalGapWidth = gapX * (maxDicePerRow - 1);
+
+    let diceSize;
+    if (num <= maxDicePerRow) {
+      diceSize = 200;
+    } else {
+      diceSize = Math.floor((maxContainerWidth - totalGapWidth) / maxDicePerRow);
+      diceSize = Math.max(60, diceSize); // tamaño mínimo
+    }
+
+    for (let i = 0; i < num; i++) {
+      diceContainer.appendChild(renderDiceFace(1, faces, diceSize));
+    }
+    resultDiv.textContent = 'Result: ';
+  }
+
+  function rollDice() {
+    const numDice = Math.min(Math.max(parseInt(numDiceInput.value), 1), 100);
+    const numFaces = Math.min(Math.max(parseInt(numFacesInput.value), 2), 100);
+
+    rollBtn.disabled = true;
+    resultDiv.textContent = 'Rolling...';
+
+    const diceElements = diceContainer.querySelectorAll('.dice');
+
+    // Calcular tamaño dado
+    const maxDicePerRow = 6;
+    const maxContainerWidth = 800;
+    const gapX = 20;
+    const totalGapWidth = gapX * (maxDicePerRow - 1);
+
+    let diceSize;
+    if (numDice <= maxDicePerRow) {
+      diceSize = 200;
+    } else {
+      diceSize = Math.floor((maxContainerWidth - totalGapWidth) / maxDicePerRow);
+      diceSize = Math.max(60, diceSize);
+    }
+
+    diceElements.forEach(dice => dice.classList.add('shake'));
+
+    setTimeout(() => {
+      let total = 0;
+      diceElements.forEach(dice => {
+        dice.classList.remove('shake');
+        const roll = Math.floor(Math.random() * numFaces) + 1;
+        total += roll;
+        dice.innerHTML = '';
+        dice.dataset.value = roll;
+
+        dice.style.width = diceSize + 'px';
+        dice.style.height = diceSize + 'px';
+
+        if (numFaces === 6 && diceDotPositions[roll]) {
+          dice.style.fontSize = (diceSize * 0.6) + 'px';
+          dice.style.color = '#113';
+          diceDotPositions[roll].forEach(dotClass => {
+            const dot = createDot(dotClass);
+            dice.appendChild(dot);
+          });
+        } else {
+          dice.style.fontSize = (diceSize * 0.6) + 'px';
+          dice.style.color = '#113';
+          dice.textContent = roll;
+        }
+      });
+
+      resultDiv.textContent = `Result: ${total}`;
+      rollBtn.disabled = false;
+    }, 600);
+  }
+
+  rollBtn.addEventListener('click', rollDice);
+
+  // Inicializar con 1 dado 6 caras al cargar
+  initializeDice(1, 6);
+</script>
+</body>
+</html>
