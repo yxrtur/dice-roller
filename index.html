@@ -35,138 +35,63 @@
     margin-bottom: 25px;
   }
 
-  /* Controls container updated */
-  .controls {
-    max-width: 420px;
-    margin: 0 auto 25px auto;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    width: 100%;
-    align-items: center; /* Center horizontally */
-  }
-  .controls .line {
-    display: flex;
-    gap: 40px;
-    align-items: center;
-    justify-content: center; /* center content inside line */
-  }
-  label {
-    font-weight: bold;
-    font-size: 16px;
-    text-transform: capitalize;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  select {
-    width: 80px;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background: #f9f7f0;
-    border: 2px solid #8a8a72;
-    border-radius: 8px;
-    padding: 8px 10px;
-    font-size: 16px;
-    font-weight: 600;
-    color: #2b2b1f;
-    cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    position: relative;
-    background-image:
-      linear-gradient(45deg, transparent 50%, #556b2f 50%),
-      linear-gradient(135deg, #556b2f 50%, transparent 50%),
-      linear-gradient(to right, #ccc, #ccc);
-    background-position:
-      calc(100% - 25px) calc(1em + 2px),
-      calc(100% - 20px) calc(1em + 2px),
-      calc(100% - 15px) 1.2em;
-    background-size: 5px 5px, 5px 5px, 1px 1.5em;
-    background-repeat: no-repeat;
-  }
-  select:focus {
-    outline: none;
-    border-color: #556b2f;
-    box-shadow: 0 0 8px #8aad45;
-  }
-  input[type="number"] {
-    width: 60px;
-    border: 2px solid #8a8a72;
-    border-radius: 8px;
-    padding: 6px 10px;
-    font-size: 16px;
-    font-weight: 600;
-    color: #2b2b1f;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    cursor: text;
-  }
-  input[type="number"]:focus {
-    outline: none;
-    border-color: #556b2f;
-    box-shadow: 0 0 8px #8aad45;
-  }
-
-  .or-separator {
-    font-weight: bold;
-    font-size: 18px;
-    color: #555;
-    margin: 0;
-    padding: 4px 0;
-    user-select: none;
-  }
-
- .dice-container {
+  /* Dice container with CSS Grid */
+  .dice-container {
+    --dice-size: 200px;
+    --gap-size: 20px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-    max-width: calc(8 * 200px + 7 * 20px); /* máximo para 8 dados de 200px + gaps */
-    gap: 20px;
-    margin: 0 auto 30px auto;
+    grid-template-columns: repeat(6, var(--dice-size));
+    gap: var(--gap-size);
     justify-content: center;
-    width: 100%;
-}
-
-}
-
+    width: calc((var(--dice-size) * 6) + (var(--gap-size) * 5));
+    margin-bottom: 30px;
+    transition: width 0.3s ease;
   }
+
+  /* When more than 6 dice, shrink dice size dynamically */
+  .dice-container.shrink {
+    --dice-size: 120px;
+    width: calc((var(--dice-size) * 6) + (var(--gap-size) * 5));
+  }
+
+  /* Dice style */
   .dice {
     background: #d6ccb6;
     border: 1px solid #999;
-    width: 200px;
-    height: 200px;
+    width: var(--dice-size);
+    height: var(--dice-size);
     border-radius: 8px;
     position: relative;
     box-shadow: inset 0 0 5px #bbb;
     user-select: none;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
     display: flex;
     justify-content: center;
     align-items: center;
     font-weight: bold;
     color: #113;
-    font-size: 120px;
+    font-size: calc(var(--dice-size) * 0.6);
   }
+
   .dot {
     background: #113;
     border-radius: 50%;
     position: absolute;
-    width: 40px;
-    height: 40px;
+    width: calc(var(--dice-size) * 0.2);
+    height: calc(var(--dice-size) * 0.2);
   }
-  /* Dot positions for 200px dice */
-  .dot1 { top: 25px; left: 25px; }
-  .dot2 { top: 25px; left: 85px; }
-  .dot3 { top: 25px; left: 145px; }
-  .dot4 { top: 85px; left: 25px; }
-  .dot5 { top: 85px; left: 85px; }
-  .dot6 { top: 85px; left: 145px; }
-  .dot7 { top: 145px; left: 25px; }
-  .dot8 { top: 145px; left: 85px; }
-  .dot9 { top: 145px; left: 145px; }
+  /* Dot positions for 200px dice (will scale with --dice-size) */
+  .dot1 { top: 12%; left: 12%; }
+  .dot2 { top: 12%; left: 42%; }
+  .dot3 { top: 12%; left: 72%; }
+  .dot4 { top: 42%; left: 12%; }
+  .dot5 { top: 42%; left: 42%; }
+  .dot6 { top: 42%; left: 72%; }
+  .dot7 { top: 72%; left: 12%; }
+  .dot8 { top: 72%; left: 42%; }
+  .dot9 { top: 72%; left: 72%; }
 
+  /* Roll button */
   button#rollBtn {
     font-size: 24px;
     padding: 12px 30px;
@@ -201,75 +126,28 @@
     margin-left: auto;
     margin-right: auto;
   }
-  .instructions {
-    margin-top: 35px;
-    max-width: 700px;
-    text-align: left;
-    font-size: 14px;
-    background: #e5dec8;
-    padding: 20px;
-    border-radius: 5px;
-    border: 1px solid #c7bf9c;
-  }
-  a {
-    color: #444;
-    text-decoration: underline;
-  }
-
-  /* Shake animation */
-  .shake {
-    animation: shake 0.6s ease;
-  }
-  @keyframes shake {
-    0%   { transform: rotate(0deg); }
-    20%  { transform: rotate(15deg); }
-    40%  { transform: rotate(-15deg); }
-    60%  { transform: rotate(10deg); }
-    80%  { transform: rotate(-10deg); }
-    100% { transform: rotate(0deg); }
-  }
 
   /* Responsive tweaks */
+  @media (max-width: 1300px) {
+    .dice-container {
+      --dice-size: 140px;
+      width: calc((var(--dice-size) * 6) + (var(--gap-size) * 5));
+    }
+    .dice-container.shrink {
+      --dice-size: 90px;
+      width: calc((var(--dice-size) * 6) + (var(--gap-size) * 5));
+    }
+  }
   @media (max-width: 600px) {
-    .controls {
-      max-width: 100%;
+    .dice-container {
+      --dice-size: 90px;
+      width: calc((var(--dice-size) * 4) + (var(--gap-size) * 3));
+      grid-template-columns: repeat(4, var(--dice-size));
     }
-    .controls .line {
-      flex-direction: column;
-      gap: 12px;
-      align-items: center; /* cambia a centro para columnas */
+    .dice-container.shrink {
+      --dice-size: 70px;
+      width: calc((var(--dice-size) * 4) + (var(--gap-size) * 3));
     }
-    label {
-      font-size: 16px;
-      white-space: normal;
-    }
-    select, input[type="number"] {
-      width: 100% !important;
-      font-size: 16px;
-    }
-    button#rollBtn {
-      width: 100%;
-      font-size: 20px;
-      padding: 12px 0;
-    }
-    .dice {
-      width: 120px;
-      height: 120px;
-      font-size: 70px;
-    }
-    .dot {
-      width: 25px;
-      height: 25px;
-    }
-    .dot1 { top: 15px; left: 15px; }
-    .dot2 { top: 15px; left: 50px; }
-    .dot3 { top: 15px; left: 85px; }
-    .dot4 { top: 50px; left: 15px; }
-    .dot5 { top: 50px; left: 50px; }
-    .dot6 { top: 50px; left: 85px; }
-    .dot7 { top: 85px; left: 15px; }
-    .dot8 { top: 85px; left: 50px; }
-    .dot9 { top: 85px; left: 85px; }
   }
 </style>
 </head>
@@ -287,37 +165,37 @@
 </h1>
 <p class="emphasis">Roll dice online</p>
 
-<div class="controls" role="form" aria-label="Dice controls">
+<div class="controls" role="form" aria-label="Dice controls" style="max-width: 420px; margin: 0 auto 25px auto;">
   <!-- Line 1 -->
-  <div class="line line1">
-    <label for="numDiceSelect">
+  <div style="display: flex; gap: 40px; align-items: center; margin-bottom: 8px; justify-content: center;">
+    <label for="numDiceSelect" style="font-weight: bold; font-size: 16px; white-space: nowrap; display: flex; align-items: center; gap: 6px;">
       Number of dice
-      <select id="numDiceSelect" aria-describedby="diceCountHelp">
+      <select id="numDiceSelect" aria-describedby="diceCountHelp" style="width: 80px; font-size: 16px; cursor: pointer;">
         <option value="1" selected>1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option>
       </select>
     </label>
 
-    <label for="numFacesSelect">
+    <label for="numFacesSelect" style="font-weight: bold; font-size: 16px; white-space: nowrap; display: flex; align-items: center; gap: 6px;">
       Number of faces
-      <select id="numFacesSelect" aria-describedby="faceCountHelp">
+      <select id="numFacesSelect" aria-describedby="faceCountHelp" style="width: 80px; font-size: 16px; cursor: pointer;">
         <option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6" selected>6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option>
       </select>
     </label>
   </div>
 
   <!-- Or separator -->
-  <div class="or-separator" aria-hidden="true">Or</div>
+  <div style="text-align: center; font-weight: bold; margin-bottom: 8px;">Or</div>
 
   <!-- Line 2 -->
-  <div class="line line2">
-    <label for="numDiceInput">
+  <div style="display: flex; gap: 40px; align-items: center; font-size: 14px; color: #555; justify-content: center;">
+    <label for="numDiceInput" style="white-space: nowrap; display: flex; align-items: center; gap: 6px;">
       Enter dice count
-      <input type="number" id="numDiceInput" min="1" max="100" value="1" step="1" />
+      <input type="number" id="numDiceInput" min="1" max="100" value="1" step="1" style="width: 60px; cursor: text;" />
     </label>
 
-    <label for="numFacesInput">
+    <label for="numFacesInput" style="white-space: nowrap; display: flex; align-items: center; gap: 6px;">
       Face count
-      <input type="number" id="numFacesInput" min="2" max="100" value="6" step="1" />
+      <input type="number" id="numFacesInput" min="2" max="100" value="6" step="1" style="width: 60px; cursor: text;" />
     </label>
   </div>
 </div>
@@ -327,16 +205,6 @@
 <button id="rollBtn" aria-label="Roll the dice">Roll</button>
 
 <div id="result" aria-live="polite" aria-atomic="true">Result: </div>
-
-<div class="instructions">
-  <p>This is an online dice simulator. You can select or enter the number of dice and faces.</p>
-  <ol>
-    <li>Select or enter the number of dice.</li>
-    <li>Select or enter the number of faces.</li>
-    <li>Click <strong>Roll</strong> to roll the dice.</li>
-    <li>The result shows the sum of all dice rolled.</li>
-  </ol>
-</div>
 
 <script>
   const diceContainer = document.getElementById('diceContainer');
@@ -432,6 +300,25 @@
 
   function initializeDice(num, faces) {
     diceContainer.innerHTML = '';
+    // Si hay más de 6 dados, añadimos clase para reducir tamaño
+    if(num > 6) {
+      diceContainer.classList.add('shrink');
+    } else {
+      diceContainer.classList.remove('shrink');
+    }
+    // Cambiamos el grid-template-columns para máximo 6 dados por fila, y salto línea a partir del décimo
+    if(num <= 6) {
+      diceContainer.style.gridTemplateColumns = `repeat(6, var(--dice-size))`;
+      diceContainer.style.width = `calc((var(--dice-size) * 6) + (var(--gap-size) * 5))`;
+    } else if(num < 10) {
+      diceContainer.style.gridTemplateColumns = `repeat(${num}, var(--dice-size))`;
+      diceContainer.style.width = `calc((var(--dice-size) * ${num}) + (var(--gap-size) * ${num - 1}))`;
+    } else {
+      // 10 o más dados, 6 en la primera fila y resto en siguiente fila
+      diceContainer.style.gridTemplateColumns = `repeat(6, var(--dice-size))`;
+      diceContainer.style.width = `calc((var(--dice-size) * 6) + (var(--gap-size) * 5))`;
+    }
+
     for (let i = 0; i < num; i++) {
       diceContainer.appendChild(renderDiceFace(1, faces));
     }
@@ -470,17 +357,13 @@
           dice.textContent = roll;
         }
       });
-
       resultDiv.textContent = `Result: ${total}`;
       rollBtn.disabled = false;
     }, 600);
   }
 
-  rollBtn.addEventListener('click', () => {
-    rollDice();
-  });
+  rollBtn.addEventListener('click', rollDice);
 
-  // Initialize dice on load
   initializeDice(parseInt(numDiceInput.value), parseInt(numFacesInput.value));
 </script>
 
