@@ -35,23 +35,42 @@
     margin-bottom: 25px;
   }
 
-  /* Controls as grid */
+  /* Controls container */
   .controls {
-    display: grid;
-    grid-template-columns: 180px 1fr;
-    gap: 12px 20px;
     max-width: 420px;
     margin: 0 auto 25px auto;
-    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
     width: 100%;
   }
-  label {
-    justify-self: end;
+  /* Each line flex container */
+  .controls .line {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+  }
+  /* First line label styling */
+  .line1 label {
     font-weight: bold;
     font-size: 16px;
-    text-align: right;
-    text-transform: capitalize;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
+  /* Second line label styling */
+  .line2 {
+    font-size: 14px;
+    color: #555;
+  }
+  .line2 label {
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
   select {
     width: 80px;
     appearance: none;
@@ -89,7 +108,7 @@
     border: 2px solid #8a8a72;
     border-radius: 8px;
     padding: 6px 10px;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
     color: #2b2b1f;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
@@ -211,15 +230,16 @@
   /* Responsive tweaks */
   @media (max-width: 600px) {
     .controls {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      max-width: none;
+      max-width: 100%;
     }
-    label {
-      text-align: left;
-      align-self: flex-start;
-      font-size: 14px;
+    .controls .line {
+      flex-direction: column;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .line1 label, .line2 label {
+      font-size: 16px;
+      white-space: normal;
     }
     select, input[type="number"] {
       width: 100% !important;
@@ -265,38 +285,37 @@
 </h1>
 <p class="emphasis">Roll dice online</p>
 
-<div class="controls" role="form" aria-label="Dice controls" style="max-width: 420px; margin: 0 auto 25px auto;">
+<div class="controls" role="form" aria-label="Dice controls">
   <!-- Line 1 -->
-  <div style="display: flex; gap: 40px; align-items: center; margin-bottom: 8px;">
-    <label for="numDiceSelect" style="font-weight: bold; font-size: 16px; white-space: nowrap; display: flex; align-items: center; gap: 6px;">
+  <div class="line line1">
+    <label for="numDiceSelect">
       Number of dice
-      <select id="numDiceSelect" aria-describedby="diceCountHelp" style="width: 80px; font-size: 16px; cursor: pointer;">
+      <select id="numDiceSelect" aria-describedby="diceCountHelp">
         <option value="1" selected>1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option>
       </select>
     </label>
 
-    <label for="numFacesSelect" style="font-weight: bold; font-size: 16px; white-space: nowrap; display: flex; align-items: center; gap: 6px;">
+    <label for="numFacesSelect">
       Number of faces
-      <select id="numFacesSelect" aria-describedby="faceCountHelp" style="width: 80px; font-size: 16px; cursor: pointer;">
+      <select id="numFacesSelect" aria-describedby="faceCountHelp">
         <option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6" selected>6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option>
       </select>
     </label>
   </div>
 
   <!-- Line 2 -->
-  <div style="display: flex; gap: 40px; align-items: center; font-size: 14px; color: #555;">
-    <label for="numDiceInput" style="white-space: nowrap; display: flex; align-items: center; gap: 6px;">
+  <div class="line line2">
+    <label for="numDiceInput">
       Enter dice count
-      <input type="number" id="numDiceInput" min="1" max="100" value="1" step="1" style="width: 60px; cursor: text;" />
+      <input type="number" id="numDiceInput" min="1" max="100" value="1" step="1" />
     </label>
 
-    <label for="numFacesInput" style="white-space: nowrap; display: flex; align-items: center; gap: 6px;">
+    <label for="numFacesInput">
       Face count
-      <input type="number" id="numFacesInput" min="2" max="100" value="6" step="1" style="width: 60px; cursor: text;" />
+      <input type="number" id="numFacesInput" min="2" max="100" value="6" step="1" />
     </label>
   </div>
 </div>
-
 
 <div class="dice-container" id="diceContainer" aria-live="polite" aria-atomic="true"></div>
 
