@@ -1,4 +1,70 @@
 <!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Herramientas de azar</title>
+<style>
+  /* Aquí pones todos los estilos del dado y los básicos del menú */
+
+  body {
+    font-family: Arial, sans-serif;
+    background: #d6ccb6;
+    color: #333;
+    margin: 0; padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  nav {
+    margin-bottom: 30px;
+  }
+
+  nav button {
+    background: #4a5a35;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background-color 0.3s;
+  }
+  nav button:hover {
+    background: #3d4729;
+  }
+  nav button.active {
+    background: #2f3b1f;
+    font-weight: bold;
+  }
+
+  section {
+    display: none;
+    width: 100%;
+    max-width: 1280px;
+  }
+  section.active {
+    display: block;
+  }
+
+  /* Copia aquí tus estilos dados (dice) para que funcionen dentro de #diceSection */
+
+  /* ... copia el CSS del dado que tienes ... */
+
+</style>
+</head>
+<body>
+
+<nav aria-label="Navegación principal">
+  <button id="btnDice" class="active" aria-controls="diceSection" aria-selected="true">Dados</button>
+  <button id="btnCoin" aria-controls="coinSection" aria-selected="false">Moneda</button>
+  <button id="btnCard" aria-controls="cardSection" aria-selected="false">Cartas</button>
+</nav>
+
+<section id="diceSection" class="active" role="region" aria-labelledby="btnDice">
+  <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
@@ -170,9 +236,10 @@
     color: #eee;
     box-shadow: 0 4px 7px rgba(0,0,0,0.3);
     transition: background-color 0.3s ease;
-    align-self: center;
-    margin-bottom: 30px;
+    margin-bottom: 0 auto 30px auto;
     min-width: 120px;
+    display: block;
+    
   }
   button#rollBtn:hover:not(:disabled) {
     background-color: #3d4729;
@@ -507,6 +574,68 @@
 
   initializeDice(1, 6);
 </script>
+
+</body>
+</html>
+</section>
+
+<section id="coinSection" role="region" aria-labelledby="btnCoin">
+  <!-- Aquí va el código para moneda -->
+  <h1>Lanzar moneda</h1>
+  <p>Funcionalidad pendiente...</p>
+</section>
+
+<section id="cardSection" role="region" aria-labelledby="btnCard">
+  <!-- Aquí va el código para cartas -->
+  <h1>Extraer carta</h1>
+  <p>Funcionalidad pendiente...</p>
+</section>
+
+<script>
+  // Control básico para cambiar de sección y botones activos
+
+  const btnDice = document.getElementById('btnDice');
+  const btnCoin = document.getElementById('btnCoin');
+  const btnCard = document.getElementById('btnCard');
+
+  const diceSection = document.getElementById('diceSection');
+  const coinSection = document.getElementById('coinSection');
+  const cardSection = document.getElementById('cardSection');
+
+  function deactivateAll() {
+    btnDice.classList.remove('active');
+    btnDice.setAttribute('aria-selected', 'false');
+    btnCoin.classList.remove('active');
+    btnCoin.setAttribute('aria-selected', 'false');
+    btnCard.classList.remove('active');
+    btnCard.setAttribute('aria-selected', 'false');
+
+    diceSection.classList.remove('active');
+    coinSection.classList.remove('active');
+    cardSection.classList.remove('active');
+  }
+
+  btnDice.addEventListener('click', () => {
+    deactivateAll();
+    btnDice.classList.add('active');
+    btnDice.setAttribute('aria-selected', 'true');
+    diceSection.classList.add('active');
+  });
+  btnCoin.addEventListener('click', () => {
+    deactivateAll();
+    btnCoin.classList.add('active');
+    btnCoin.setAttribute('aria-selected', 'true');
+    coinSection.classList.add('active');
+  });
+  btnCard.addEventListener('click', () => {
+    deactivateAll();
+    btnCard.classList.add('active');
+    btnCard.setAttribute('aria-selected', 'true');
+    cardSection.classList.add('active');
+  });
+</script>
+
+<!-- Aquí agregas el script de dado íntegro solo para #diceSection -->
 
 </body>
 </html>
