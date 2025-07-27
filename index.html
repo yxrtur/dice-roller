@@ -34,26 +34,24 @@
     margin-top: 0;
     margin-bottom: 25px;
   }
+
+  /* Controls as grid */
   .controls {
-    margin-bottom: 25px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-    max-width: 600px;
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 15px 25px;
+    max-width: 400px;
+    margin: 0 auto 25px auto;
+    align-items: center;
     width: 100%;
   }
   label {
+    justify-self: end;
     font-weight: bold;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    min-width: 160px;
     font-size: 16px;
   }
-
-  /* Fancy select styles */
-  select, input[type="number"] {
+  select {
+    width: 100px;
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -64,20 +62,10 @@
     font-size: 18px;
     font-weight: 600;
     color: #2b2b1f;
-    width: 100px;
     cursor: pointer;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
     position: relative;
-  }
-  select:focus, input[type="number"]:focus {
-    outline: none;
-    border-color: #556b2f;
-    box-shadow: 0 0 8px #8aad45;
-  }
-
-  /* Custom arrow for select */
-  select {
     background-image:
       linear-gradient(45deg, transparent 50%, #556b2f 50%),
       linear-gradient(135deg, #556b2f 50%, transparent 50%),
@@ -89,11 +77,27 @@
     background-size: 5px 5px, 5px 5px, 1px 1.5em;
     background-repeat: no-repeat;
   }
-
-  /* Number inputs show arrow too but with default */
+  select:focus {
+    outline: none;
+    border-color: #556b2f;
+    box-shadow: 0 0 8px #8aad45;
+  }
   input[type="number"] {
-    padding-right: 14px;
+    width: 140px;
+    border: 2px solid #8a8a72;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #2b2b1f;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
     cursor: text;
+  }
+  input[type="number"]:focus {
+    outline: none;
+    border-color: #556b2f;
+    box-shadow: 0 0 8px #8aad45;
   }
 
   .dice-container {
@@ -150,6 +154,9 @@
     color: #eee;
     box-shadow: 0 4px 7px rgba(0,0,0,0.3);
     transition: background-color 0.3s ease;
+    align-self: center;
+    margin-bottom: 30px;
+    min-width: 120px;
   }
   button#rollBtn:hover:not(:disabled) {
     background-color: #3d4729;
@@ -165,6 +172,11 @@
     font-weight: bold;
     font-size: 20px;
     min-height: 24px;
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
   }
   .instructions {
     margin-top: 35px;
@@ -195,7 +207,26 @@
   }
 
   /* Responsive tweaks */
-  @media (max-width: 480px) {
+  @media (max-width: 600px) {
+    .controls {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      max-width: none;
+    }
+    label {
+      justify-self: start;
+      font-size: 14px;
+    }
+    select, input[type="number"] {
+      width: 100% !important;
+      font-size: 16px;
+    }
+    button#rollBtn {
+      width: 100%;
+      font-size: 20px;
+      padding: 12px 0;
+    }
     .dice {
       width: 120px;
       height: 120px;
@@ -214,19 +245,6 @@
     .dot7 { top: 85px; left: 15px; }
     .dot8 { top: 85px; left: 50px; }
     .dot9 { top: 85px; left: 85px; }
-    button#rollBtn {
-      width: 100%;
-      font-size: 20px;
-      padding: 12px 0;
-    }
-    select, input[type="number"] {
-      width: 60px;
-      font-size: 14px;
-    }
-    label {
-      min-width: 140px;
-      font-size: 14px;
-    }
   }
 </style>
 </head>
@@ -244,18 +262,18 @@
 </h1>
 <p class="emphasis">Roll dice online</p>
 
-<div class="controls">
+<div class="controls" role="form" aria-label="Dice controls">
   <label for="numDiceSelect">Number of dice (select):</label>
-  <select id="numDiceSelect">
+  <select id="numDiceSelect" aria-describedby="diceCountHelp">
     <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
     <option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option>
   </select>
 
   <label for="numDiceInput">or enter dice count:</label>
-  <input type="number" id="numDiceInput" min="1" max="100" value="1" step="1" />
+  <input type="number" id="numDiceInput" min="1" max="100" value="1" step="1" aria-describedby="diceCountHelp" />
 
   <label for="numFacesSelect">Number of faces (select):</label>
-  <select id="numFacesSelect">
+  <select id="numFacesSelect" aria-describedby="faceCountHelp">
     <option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6" selected>6</option>
     <option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option>
     <option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option>
@@ -264,7 +282,7 @@
   </select>
 
   <label for="numFacesInput">or enter face count:</label>
-  <input type="number" id="numFacesInput" min="2" max="100" value="6" step="1" />
+  <input type="number" id="numFacesInput" min="2" max="100" value="6" step="1" aria-describedby="faceCountHelp" />
 </div>
 
 <div class="dice-container" id="diceContainer" aria-live="polite" aria-atomic="true"></div>
@@ -284,7 +302,6 @@
 </div>
 
 <script>
-  // Same JS as before - no change needed for fancy selects
   const diceContainer = document.getElementById('diceContainer');
   const rollBtn = document.getElementById('rollBtn');
   const numDiceSelect = document.getElementById('numDiceSelect');
@@ -428,5 +445,3 @@
 
 </body>
 </html>
-
-
