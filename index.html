@@ -38,9 +38,9 @@
   /* Controls as grid */
   .controls {
     display: grid;
-    grid-template-columns: 160px 1fr;
-    gap: 15px 25px;
-    max-width: 400px;
+    grid-template-columns: 180px 1fr;
+    gap: 12px 20px;
+    max-width: 420px;
     margin: 0 auto 25px auto;
     align-items: center;
     width: 100%;
@@ -49,17 +49,19 @@
     justify-self: end;
     font-weight: bold;
     font-size: 16px;
+    text-align: right;
+    text-transform: capitalize;
   }
   select {
-    width: 100px;
+    width: 80px;
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
     background: #f9f7f0;
     border: 2px solid #8a8a72;
     border-radius: 8px;
-    padding: 8px 38px 8px 14px;
-    font-size: 18px;
+    padding: 8px 10px;
+    font-size: 16px;
     font-weight: 600;
     color: #2b2b1f;
     cursor: pointer;
@@ -83,11 +85,11 @@
     box-shadow: 0 0 8px #8aad45;
   }
   input[type="number"] {
-    width: 140px;
+    width: 60px;
     border: 2px solid #8a8a72;
     border-radius: 8px;
-    padding: 8px 12px;
-    font-size: 18px;
+    padding: 6px 10px;
+    font-size: 16px;
     font-weight: 600;
     color: #2b2b1f;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
@@ -211,11 +213,12 @@
     .controls {
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 10px;
       max-width: none;
     }
     label {
-      justify-self: start;
+      text-align: left;
+      align-self: flex-start;
       font-size: 14px;
     }
     select, input[type="number"] {
