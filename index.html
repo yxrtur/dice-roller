@@ -510,3 +510,77 @@
 
 </body>
 </html>
+
+
+<!-- Añade esto justo debajo del título -->
+<div id="tabs" style="display:flex; gap: 10px; margin-bottom: 20px;">
+  <button type="button" class="tab-btn active" data-target="diceSection">Dados</button>
+  <button type="button" class="tab-btn" data-target="lotterySection">Lotería</button>
+</div>
+
+<!-- Envuelve tu sección actual (dados) en un div con id -->
+<div id="diceSection">
+  <!-- Todo tu contenido actual: controles dados, botones, resultado, dados -->
+</div>
+
+<!-- Nueva sección para la lotería (oculta por defecto) -->
+<div id="lotterySection" style="display:none;">
+  <h2>Lotería</h2>
+  <!-- Aquí pones controles, botones y resultado para la lotería -->
+  <label for="lotteryMax">Número máximo:</label>
+  <input type="number" id="lotteryMax" min="1" value="50" />
+  <label for="lotteryCount">Cantidad a sortear:</label>
+  <input type="number" id="lotteryCount" min="1" value="6" />
+  <button id="lotteryDrawBtn">Sorteo</button>
+  <div id="lotteryResult"></div>
+</div>
+
+<script>
+  // Control simple para cambiar pestañas
+  const tabButtons = document.querySelectorAll('.tab-btn');
+  const sections = {
+    diceSection: document.getElementById('diceSection'),
+    lotterySection: document.getElementById('lotterySection')
+  };
+
+  tabButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Quitar active a todos
+      tabButtons.forEach(b => b.classList.remove('active'));
+      // Mostrar solo la sección seleccionada
+      for (const key in sections) {
+        sections[key].style.display = 'none';
+      }
+      // Activar botón y mostrar sección
+      btn.classList.add('active');
+      const target = btn.getAttribute('data-target');
+      sections[target].style.display = 'block';
+    });
+  });
+
+  // Código para el sorteo de lotería (ejemplo simple)
+  const lotteryDrawBtn = document.getElementById('lotteryDrawBtn');
+  const lotteryResult = document.getElementById('lotteryResult');
+
+  lotteryDrawBtn.addEventListener('click', () => {
+    const max = parseInt(document.getElementById('lotteryMax').value);
+    const count = parseInt(document.getElementById('lotteryCount').value);
+
+    if (isNaN(max) || isNaN(count) || max < count || max < 1 || count < 1) {
+      lotteryResult.textContent = 'Valores inválidos.';
+      return;
+    }
+
+    // Generar números únicos aleatorios
+    const numbers = [];
+    while (numbers.length < count) {
+      const n = Math.floor(Math.random() * max) + 1;
+      if (!numbers.includes(n)) numbers.push(n);
+    }
+
+    numbers.sort((a,b) => a - b);
+
+    lotteryResult.textContent = 'Números sorteados: ' + numbers.join(', ');
+  });
+</script>
+
