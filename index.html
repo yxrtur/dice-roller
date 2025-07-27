@@ -43,13 +43,13 @@
     flex-direction: column;
     gap: 8px;
     width: 100%;
-    align-items: center; /* Center horizontally */
+    align-items: center;
   }
   .controls .line {
     display: flex;
     gap: 40px;
     align-items: center;
-    justify-content: center; /* center content inside line */
+    justify-content: center;
   }
   label {
     font-weight: bold;
@@ -125,7 +125,7 @@
     flex-wrap: wrap;
     gap: 30px 20px;
     width: 100%;
-    max-width: 800px;
+    max-width: 1280px; /* aumenta ancho para hasta 16 dados */
     margin-bottom: 30px;
   }
   .dice {
@@ -231,7 +231,7 @@
     .controls .line {
       flex-direction: column;
       gap: 12px;
-      align-items: center; /* cambia a centro para columnas */
+      align-items: center;
     }
     label {
       font-size: 16px;
@@ -287,7 +287,7 @@
     <label for="numDiceSelect">
       Number of dice
       <select id="numDiceSelect" aria-describedby="diceCountHelp">
-        <option value="1" selected>1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option>
+        <option value="1" selected>1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option>
       </select>
     </label>
 
@@ -369,8 +369,7 @@
       dice.style.color = '#113';
       dice.innerHTML = '';
       diceDotPositions[value].forEach(dotClass => {
-        const dot = createDot(dotClass);
-        dice.appendChild(dot);
+        dice.appendChild(createDot(dotClass));
       });
     } else {
       dice.style.fontSize = (size * 0.6) + 'px';
@@ -388,7 +387,7 @@
       if (isNaN(val) || val < 1) val = 1;
       if (val > 100) val = 100;
       numDiceInput.value = val;
-      if (val <= 10) {
+      if (val <= 16) {
         numDiceSelect.value = val.toString();
       } else {
         numDiceSelect.value = '';
@@ -431,20 +430,23 @@
   function initializeDice(num, faces) {
     diceContainer.innerHTML = '';
 
-    const maxContainerWidth = 800;
-    const maxDicePerRow = 6;
-    const gapX = 20; // horizontal gap px
-    const totalGapWidth = gapX * (maxDicePerRow - 1);
+    // Decide size y max dados por fila
+    let maxPerRow, diceSize, maxContainerWidth;
 
-    let diceSize;
-    if (num <= maxDicePerRow) {
+    if (num < 12) {
+      maxPerRow = 6;
       diceSize = 200;
+      maxContainerWidth = 6 * diceSize + 5 * 20; // gaps 20px entre dados
     } else {
-      diceSize = Math.floor((maxContainerWidth - totalGapWidth) / maxDicePerRow);
-      diceSize = Math.max(60, diceSize); // tamaño mínimo
+      maxPerRow = 16;
+      maxContainerWidth = 16 * 90 + 15 * 20; // gaps 20px
+      diceSize = Math.floor((maxContainerWidth - (maxPerRow -1) * 20) / maxPerRow);
+      diceSize = Math.max(40, diceSize);
     }
 
-    for (let i = 0; i < num; i++) {
+    diceContainer.style.maxWidth = maxContainerWidth + 'px';
+
+    for(let i=0; i<num; i++) {
       diceContainer.appendChild(renderDiceFace(1, faces, diceSize));
     }
     resultDiv.textContent = 'Result: ';
@@ -459,24 +461,26 @@
 
     const diceElements = diceContainer.querySelectorAll('.dice');
 
-    // Calcular tamaño dado
-    const maxDicePerRow = 6;
-    const maxContainerWidth = 800;
-    const gapX = 20;
-    const totalGapWidth = gapX * (maxDicePerRow - 1);
-
-    let diceSize;
-    if (numDice <= maxDicePerRow) {
-      diceSize = 200;
-    } else {
-      diceSize = Math.floor((maxContainerWidth - totalGapWidth) / maxDicePerRow);
-      diceSize = Math.max(60, diceSize);
-    }
-
     diceElements.forEach(dice => dice.classList.add('shake'));
 
     setTimeout(() => {
       let total = 0;
+
+      let maxPerRow, diceSize, maxContainerWidth;
+
+      if (numDice < 12) {
+        maxPerRow = 6;
+        diceSize = 200;
+        maxContainerWidth = 6 * diceSize + 5 * 20;
+      } else {
+        maxPerRow = 16;
+        maxContainerWidth = 16 * 90 + 15 * 20;
+        diceSize = Math.floor((maxContainerWidth - (maxPerRow -1) * 20) / maxPerRow);
+        diceSize = Math.max(40, diceSize);
+      }
+
+      diceContainer.style.maxWidth = maxContainerWidth + 'px';
+
       diceElements.forEach(dice => {
         dice.classList.remove('shake');
         const roll = Math.floor(Math.random() * numFaces) + 1;
@@ -491,8 +495,7 @@
           dice.style.fontSize = (diceSize * 0.6) + 'px';
           dice.style.color = '#113';
           diceDotPositions[roll].forEach(dotClass => {
-            const dot = createDot(dotClass);
-            dice.appendChild(dot);
+            dice.appendChild(createDot(dotClass));
           });
         } else {
           dice.style.fontSize = (diceSize * 0.6) + 'px';
@@ -511,5 +514,6 @@
   // Inicializar con 1 dado 6 caras al cargar
   initializeDice(1, 6);
 </script>
+
 </body>
 </html>
