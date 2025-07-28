@@ -585,22 +585,60 @@
     <h2 style="color: #4a5a35; font-size: 28px;">Coin Flip</h2>
 
     <div class="coin-container">
-      <div id="coin" class="coin">
-        <div class="face front" aria-label="Heads side" role="img" tabindex="0">
-          <!-- Simplified SVG of US coin heads (Washington) -->
-          <svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
-            <circle cx="60" cy="60" r="58" fill="#c2b280" stroke="#8a8a5c" stroke-width="3"/>
-            <circle cx="60" cy="60" r="50" fill="#d6ccb6"/>
-            <text x="60" y="70" font-size="40" text-anchor="middle" fill="#4a5a35" font-family="serif" font-weight="bold">W</text>
+      <div id="coin" class="coin" aria-live="polite" aria-atomic="true" role="img" aria-label="Coin to flip">
+        <div class="face front" aria-hidden="true">
+          <!-- Contorno y diseño anverso con borde dentado -->
+          <svg width="140" height="140" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" >
+            <!-- Borde dentado -->
+            <circle cx="70" cy="70" r="68" fill="#c2b280" stroke="#8a8a5c" stroke-width="3" filter="url(#edge)" />
+            <!-- Círculo interior -->
+            <circle cx="70" cy="70" r="58" fill="url(#gradFront)" />
+            <!-- Detalle central, letra W para Washington simplificado -->
+            <text x="70" y="90" font-size="60" text-anchor="middle" fill="#4a5a35" font-family="serif" font-weight="bold" >W</text>
+
+            <defs>
+              <radialGradient id="gradFront" cx="0.5" cy="0.5" r="0.5">
+                <stop offset="0%" stop-color="#d6ccb6"/>
+                <stop offset="100%" stop-color="#a89f75"/>
+              </radialGradient>
+              <filter id="edge" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+                <feMorphology operator="erode" radius="2" in="SourceAlpha" result="thinned"/>
+                <feComposite in="thinned" in2="SourceAlpha" operator="xor" result="edge"/>
+                <feColorMatrix in="edge" type="matrix" values="0 0 0 0 0.54 0 0 0 0 0.54 0 0 0 0 0.33 0 0 0 1 0" result="coloredEdge"/>
+                <feMerge>
+                  <feMergeNode in="coloredEdge"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+            </defs>
           </svg>
         </div>
-        <div class="face back" aria-label="Tails side" role="img" tabindex="0">
-          <!-- Simplified SVG of US coin tails (Eagle) -->
-          <svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
-            <circle cx="60" cy="60" r="58" fill="#c2b280" stroke="#8a8a5c" stroke-width="3"/>
-            <circle cx="60" cy="60" r="50" fill="#4a5a35"/>
-            <path d="M40 80 L60 40 L80 80 Z" fill="#d6ccb6"/>
-            <circle cx="60" cy="60" r="5" fill="#d6ccb6"/>
+        <div class="face back" aria-hidden="true">
+          <!-- Contorno y diseño reverso con borde dentado -->
+          <svg width="140" height="140" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+            <!-- Borde dentado -->
+            <circle cx="70" cy="70" r="68" fill="#c2b280" stroke="#8a8a5c" stroke-width="3" filter="url(#edgeBack)" />
+            <!-- Círculo interior oscuro -->
+            <circle cx="70" cy="70" r="58" fill="url(#gradBack)" />
+            <!-- Diseño simple: triángulo y círculo central -->
+            <path d="M50 90 L70 50 L90 90 Z" fill="#d6ccb6" />
+            <circle cx="70" cy="70" r="7" fill="#d6ccb6" />
+            
+            <defs>
+              <radialGradient id="gradBack" cx="0.5" cy="0.5" r="0.5">
+                <stop offset="0%" stop-color="#556b2f"/>
+                <stop offset="100%" stop-color="#2f3b1f"/>
+              </radialGradient>
+              <filter id="edgeBack" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+                <feMorphology operator="erode" radius="2" in="SourceAlpha" result="thinned"/>
+                <feComposite in="thinned" in2="SourceAlpha" operator="xor" result="edge"/>
+                <feColorMatrix in="edge" type="matrix" values="0 0 0 0 0.33 0 0 0 0 0.33 0 0 0 0 0.20 0 0 0 1 0" result="coloredEdge"/>
+                <feMerge>
+                  <feMergeNode in="coloredEdge"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+            </defs>
           </svg>
         </div>
       </div>
@@ -608,7 +646,7 @@
 
     <button id="flipBtn">Flip</button>
 
-    <p id="coin-result" style="font-size: 18px; margin-top: 15px; color: #4a5a35; font-weight: bold;"></p>
+    <p id="coin-result" style="font-size: 18px; margin-top: 15px; color: #4a5a35; font-weight: bold; min-height: 24px;"></p>
   </div>
 
   <style>
@@ -625,8 +663,12 @@
       border-radius: 50%;
       position: relative;
       transform-style: preserve-3d;
-      transition: transform 1s ease-in-out;
+      transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
       cursor: pointer;
+      box-shadow:
+        inset 0 0 20px rgba(255,255,255,0.4),
+        0 4px 6px rgba(0,0,0,0.3);
+      background: transparent;
     }
 
     .face {
@@ -638,23 +680,19 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      box-shadow:
-        inset 0 0 10px #c7bf9c,
-        0 0 12px rgba(0,0,0,0.3);
-      border: 6px solid #c7bf9c;
-      background: transparent;
+      user-select: none;
     }
 
     .front {
-      background: #d6ccb6;
-      color: #4a5a35;
       transform: rotateY(0deg);
+      z-index: 2;
+      /* El fondo ya lo pone el SVG */
     }
 
     .back {
-      background: #4a5a35;
-      color: #d6ccb6;
       transform: rotateY(180deg);
+      z-index: 1;
+      /* El fondo ya lo pone el SVG */
     }
 
     .coin.heads {
@@ -662,7 +700,7 @@
     }
 
     .coin.tails {
-      transform: rotateY(180deg);
+      transform: rotateY(1800deg); /* 5 vueltas para efecto */
     }
 
     #flipBtn {
@@ -684,23 +722,44 @@
   </style>
 
   <script>
-    function flipCoin() {
-      const coin = document.getElementById("coin");
-      const resultText = document.getElementById("coin-result");
+    const coin = document.getElementById("coin");
+    const resultText = document.getElementById("coin-result");
+    const flipBtn = document.getElementById("flipBtn");
 
+    let flipping = false;
+
+    function flipCoin() {
+      if (flipping) return; // evita spameo rápido
+      flipping = true;
+      resultText.textContent = "";
       coin.classList.remove("heads", "tails");
 
       const isHeads = Math.random() < 0.5;
 
-      setTimeout(() => {
-        coin.classList.add(isHeads ? "heads" : "tails");
-        resultText.textContent = isHeads ? "Result: HEADS" : "Result: TAILS";
-      }, 100);
+      // For tails, giro fuerte; para heads, sin giro
+      if (isHeads) {
+        coin.style.transform = "rotateY(0deg)";
+        coin.classList.add("heads");
+      } else {
+        coin.style.transform = "rotateY(1800deg)";
+        coin.classList.add("tails");
+      }
     }
 
-    document.getElementById("flipBtn").addEventListener("click", flipCoin);
+    coin.addEventListener("transitionend", () => {
+      // Mostrar resultado cuando termine animación
+      if (coin.classList.contains("heads")) {
+        resultText.textContent = "Result: HEADS";
+      } else if (coin.classList.contains("tails")) {
+        resultText.textContent = "Result: TAILS";
+      }
+      flipping = false;
+    });
+
+    flipBtn.addEventListener("click", flipCoin);
   </script>
 </section>
+
 
 
 
