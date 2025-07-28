@@ -59,7 +59,7 @@
 
 <nav aria-label="Navegación principal">
   <button id="btnDice" class="active" aria-controls="diceSection" aria-selected="true">Dice</button>
-  <button id="btnCoin" aria-controls="raffleSection" aria-selected="false">Raffle</button>
+  <button id="btnRaffle" aria-controls="raffleSection" aria-selected="false">Raffle</button>
   <button id="btnCoin" aria-controls="coinSection" aria-selected="false">Coin</button>
   <button id="btnCard" aria-controls="cardSection" aria-selected="false">Cards</button>
 </nav>
@@ -738,29 +738,30 @@
   const btnDice = document.getElementById('btnDice');
   const btnCoin = document.getElementById('btnCoin');
   const btnCard = document.getElementById('btnCard');
-  const btnRaffle = document.getElementById('btnRaffle');
-
-
+  const btnRaffle = document.getElementById('btnRaffle'); // <-- added
 
   const diceSection = document.getElementById('diceSection');
   const coinSection = document.getElementById('coinSection');
   const cardSection = document.getElementById('cardSection');
-  const raffleSection = document.getElementById('raffleSection');
+  const raffleSection = document.getElementById('raffleSection'); // <-- added
 
   function deactivateAll() {
     btnDice.classList.remove('active');
     btnDice.setAttribute('aria-selected', 'false');
+
     btnCoin.classList.remove('active');
     btnCoin.setAttribute('aria-selected', 'false');
+
     btnCard.classList.remove('active');
     btnCard.setAttribute('aria-selected', 'false');
-    btnRaffle.classList.remove('active');
-    btnRaffle.setAttribute('aria-selected', 'false');
+
+    btnRaffle.classList.remove('active'); // <-- added
+    btnRaffle.setAttribute('aria-selected', 'false'); // <-- added
 
     diceSection.classList.remove('active');
     coinSection.classList.remove('active');
     cardSection.classList.remove('active');
-    raffleSection.classList.remove('active');
+    raffleSection.classList.remove('active'); // <-- added
   }
 
   btnDice.addEventListener('click', () => {
@@ -769,12 +770,14 @@
     btnDice.setAttribute('aria-selected', 'true');
     diceSection.classList.add('active');
   });
+
   btnCoin.addEventListener('click', () => {
     deactivateAll();
     btnCoin.classList.add('active');
     btnCoin.setAttribute('aria-selected', 'true');
     coinSection.classList.add('active');
   });
+
   btnCard.addEventListener('click', () => {
     deactivateAll();
     btnCard.classList.add('active');
@@ -783,13 +786,13 @@
   });
 
   btnRaffle.addEventListener('click', () => {
-  deactivateAll();
-  btnRaffle.classList.add('active');
-  btnRaffle.setAttribute('aria-selected', 'true');
-  raffleSection.classList.add('active');
-});
-
+    deactivateAll();
+    btnRaffle.classList.add('active');
+    btnRaffle.setAttribute('aria-selected', 'true');
+    raffleSection.classList.add('active');
+  });
 </script>
+
 
 <!-- Aquí agregas el script de dado íntegro solo para #diceSection -->
 
