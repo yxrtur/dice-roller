@@ -696,11 +696,14 @@
     }
 
     coin.addEventListener("transitionend", () => {
-      const angle = currentRotation % 360;
-      const result = (angle % 360 === 180) ? "Tails" : "Heads";
-      resultText.textContent = result;
-      flipping = false;
-    });
+     currentRotation = currentRotation % 360;
+     const angle = currentRotation;
+     const result = (angle > 90 && angle < 270) ? "Tails" : "Heads";
+     resultText.textContent = result;
+     flipping = false;
+   });
+
+
 
     flipBtn.addEventListener("click", flipCoin);
   </script>
