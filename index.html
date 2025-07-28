@@ -580,14 +580,14 @@
 </html>
 </section>
 
-<section id="coinSection" role="region" aria-labelledby="btnCoin">
+<section id="coinSection" role="region" aria-labelledby="flipBtn">
   <div id="coin-section" style="text-align: center; margin-top: 80px;">
-    <h2 style="color: #4a5a35; font-size: 28px;">Lanzar Moneda</h2>
+    <h2 style="color: #4a5a35; font-size: 28px;">Flip Coin</h2>
 
     <div class="coin-container">
-      <div id="coin" class="coin" aria-live="polite" aria-atomic="true" role="img" aria-label="Moneda a lanzar">
+      <div id="coin" class="coin" aria-live="polite" aria-atomic="true" role="img" aria-label="Coin to flip">
         <div class="face front" aria-hidden="true">
-          <!-- Anverso: óvalo vertical simplificado -->
+          <!-- Obverse: vertical oval -->
           <svg viewBox="0 0 200 200" width="140" height="140" xmlns="http://www.w3.org/2000/svg">
             <circle cx="100" cy="100" r="90" fill="#d6ccb6" stroke="#8a8a5c" stroke-width="4"/>
             <ellipse cx="100" cy="100" rx="40" ry="70" fill="#4a5a35" stroke="#2f3b1f" stroke-width="5"/>
@@ -596,7 +596,7 @@
         </div>
 
         <div class="face back" aria-hidden="true">
-          <!-- Reverso: cruz simplificada -->
+          <!-- Reverse: simple cross -->
           <svg viewBox="0 0 200 200" width="140" height="140" xmlns="http://www.w3.org/2000/svg">
             <circle cx="100" cy="100" r="90" fill="#4a5a35" stroke="#2f3b1f" stroke-width="4"/>
             <line x1="60" y1="100" x2="140" y2="100" stroke="#d6ccb6" stroke-width="15" stroke-linecap="round"/>
@@ -607,7 +607,7 @@
       </div>
     </div>
 
-    <button id="flipBtn">Lanzar</button>
+    <button id="flipBtn">Flip</button>
 
     <p id="coin-result" style="font-size: 18px; margin-top: 15px; color: #4a5a35; font-weight: bold; min-height: 24px;"></p>
   </div>
@@ -656,13 +656,13 @@
       z-index: 1;
     }
 
-    /* Animaciones con clases */
+    /* Animations with classes, add large rotation so transition triggers every time */
     .coin.heads {
-      transform: rotateY(0deg);
+      transform: rotateY(3600deg);
     }
 
     .coin.tails {
-      transform: rotateY(1800deg);
+      transform: rotateY(3780deg); /* 3600 + 180 */
     }
 
     #flipBtn {
@@ -698,6 +698,9 @@
 
       const isHeads = Math.random() < 0.5;
 
+      // Force reflow to restart animation if repeated quickly
+      coin.offsetWidth;
+
       if (isHeads) {
         coin.classList.add("heads");
       } else {
@@ -707,9 +710,9 @@
 
     coin.addEventListener("transitionend", () => {
       if (coin.classList.contains("heads")) {
-        resultText.textContent = "¡Salió Cara!";
+        resultText.textContent = "Heads!";
       } else if (coin.classList.contains("tails")) {
-        resultText.textContent = "¡Salió Cruz!";
+        resultText.textContent = "Tails!";
       }
       flipping = false;
     });
