@@ -58,10 +58,9 @@
 <body>
 
 <nav aria-label="Navegación principal">
-  <button id="btnDice" class="active" aria-controls="diceSection" aria-selected="true">Dice</button>
-  <button id="btnRaffle" aria-controls="raffleSection" aria-selected="false">Raffle</button>
-  <button id="btnCoin" aria-controls="coinSection" aria-selected="false">Coin</button>
-  <button id="btnCard" aria-controls="cardSection" aria-selected="false">Cards</button>
+  <button id="btnDice" class="active" aria-controls="diceSection" aria-selected="true">Dados</button>
+  <button id="btnCoin" aria-controls="coinSection" aria-selected="false">Moneda</button>
+  <button id="btnCard" aria-controls="cardSection" aria-selected="false">Cartas</button>
 </nav>
 
 <section id="diceSection" class="active" role="region" aria-labelledby="btnDice">
@@ -696,14 +695,11 @@
     }
 
     coin.addEventListener("transitionend", () => {
-     currentRotation = currentRotation % 360;
-     const angle = currentRotation;
-     const result = (angle > 90 && angle < 270) ? "Tails" : "Heads";
-     resultText.textContent = result;
-     flipping = false;
-   });
-
-
+      const angle = currentRotation % 360;
+      const result = (angle % 360 === 180) ? "Tails" : "Heads";
+      resultText.textContent = result;
+      flipping = false;
+    });
 
     flipBtn.addEventListener("click", flipCoin);
   </script>
