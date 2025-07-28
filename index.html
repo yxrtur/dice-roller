@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Herramientas de azar</title>
 <style>
+  /* Aquí pones todos los estilos del dado y los básicos del menú */
+
   body {
     font-family: Arial, sans-serif;
     background: #d6ccb6;
@@ -47,7 +49,59 @@
     display: block;
   }
 
-  /* Estilos dados (dice) */
+  /* Copia aquí tus estilos dados (dice) para que funcionen dentro de #diceSection */
+
+  /* ... copia el CSS del dado que tienes ... */
+
+</style>
+</head>
+<body>
+
+<nav aria-label="Navegación principal">
+  <button id="btnDice" class="active" aria-controls="diceSection" aria-selected="true">Dice</button>
+  <button id="btnRaffle" aria-controls="raffleSection" aria-selected="false">Raffle</button>
+  <button id="btnCoin" aria-controls="coinSection" aria-selected="false">Coin</button>
+  <button id="btnCard" aria-controls="cardSection" aria-selected="false">Cards</button>
+</nav>
+
+<section id="diceSection" class="active" role="region" aria-labelledby="btnDice">
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Virtual Dice</title>
+<style>
+  body {
+    background: #d6ccb6;
+    font-family: Arial, sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 30px 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    box-sizing: border-box;
+  }
+  h1 {
+    font-weight: normal;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+  }
+  h1 svg {
+    width: 30px;
+    height: 30px;
+  }
+  p.emphasis {
+    font-style: italic;
+    margin-top: 0;
+    margin-bottom: 25px;
+    text-align: center;
+  }
 
   .controls {
     max-width: 420px;
@@ -56,13 +110,14 @@
     flex-direction: column;
     gap: 8px;
     width: 100%;
+    /* Para que las líneas tengan mismo ancho */
   }
   .controls .line {
     display: flex;
     gap: 40px;
     align-items: center;
-    justify-content: flex-start;
-    width: 100%;
+    justify-content: flex-start; /* alinear a la izquierda, no centrar */
+    width: 100%; /* ancho completo para ambas líneas igual */
   }
   label {
     font-weight: bold;
@@ -76,6 +131,8 @@
   select {
     width: 80px;
     appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
     background: #f9f7f0;
     border: 2px solid #8a8a72;
     border-radius: 8px;
@@ -86,6 +143,7 @@
     cursor: pointer;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
     background-image:
       linear-gradient(45deg, transparent 50%, #556b2f 50%),
       linear-gradient(135deg, #556b2f 50%, transparent 50%),
@@ -136,7 +194,7 @@
     flex-wrap: wrap;
     gap: 30px 20px;
     width: 100%;
-    max-width: 1280px;
+    max-width: 1280px; /* para hasta 16 dados */
     margin-bottom: 30px;
   }
   .dice {
@@ -183,6 +241,7 @@
     margin: 0 auto 30px auto;
     min-width: 120px;
     display: block;
+    
   }
   button#rollBtn:hover:not(:disabled) {
     background-color: #3d4729;
@@ -238,7 +297,7 @@
     .controls .line {
       flex-direction: column;
       gap: 12px;
-      align-items: flex-start;
+      align-items: flex-start; /* alinear izquierda en móvil */
       width: 100%;
     }
     label {
@@ -273,289 +332,392 @@
     .dot8 { top: 85px !important; left: 50px !important; }
     .dot9 { top: 85px !important; left: 85px !important; }
   }
-
-  /* Estilos moneda */
-
-  .coin-container {
-    perspective: 1000px;
-    height: 220px;
-    width: 220px;
-    margin: 40px auto;
-  }
-
-  .coin {
-    width: 220px;
-    height: 220px;
-    border-radius: 50%;
-    position: relative;
-    transform-style: preserve-3d;
-    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    background: transparent;
-  }
-
-  .face {
-    position: absolute;
-    width: 220px;
-    height: 220px;
-    border-radius: 50%;
-    backface-visibility: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    user-select: none;
-  }
-
-  .front {
-    transform: rotateY(0deg);
-    z-index: 2;
-  }
-
-  .back {
-    transform: rotateY(180deg);
-    z-index: 1;
-  }
-
-  #flipBtn {
-    font-size: 18px;
-    padding: 10px 25px;
-    background-color: #4a5a35;
-    color: #eee;
-    border: none;
-    border-radius: 6px;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-top: 15px;
-  }
-
-  #flipBtn:hover {
-    background-color: #3b4a28;
-  }
 </style>
 </head>
 <body>
 
-<nav aria-label="Navegación principal">
-  <button id="btnDice" class="active" aria-controls="diceSection" aria-selected="true">Dados</button>
-  <button id="btnCoin" aria-controls="coinSection" aria-selected="false">Moneda</button>
-  <button id="btnCard" aria-controls="cardSection" aria-selected="false">Cartas</button>
-</nav>
+<h1>
+  <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="64" height="64" rx="10" ry="10" fill="#d6ccb6" stroke="#333" stroke-width="2"/>
+    <circle cx="20" cy="20" r="6" fill="#113"/>
+    <circle cx="44" cy="20" r="6" fill="#113"/>
+    <circle cx="20" cy="44" r="6" fill="#113"/>
+    <circle cx="44" cy="44" r="6" fill="#113"/>
+  </svg>
+  Virtual Dice
+</h1>
+<p class="emphasis">Roll dice online</p>
 
-<section id="diceSection" class="active" role="region" aria-labelledby="btnDice">
-  <h1>
-    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" width="30" height="30" style="vertical-align:middle; margin-right:8px;">
-      <rect width="64" height="64" rx="10" ry="10" fill="#d6ccb6" stroke="#333" stroke-width="2"/>
-      <circle cx="20" cy="20" r="6" fill="#113"/>
-      <circle cx="44" cy="20" r="6" fill="#113"/>
-      <circle cx="20" cy="44" r="6" fill="#113"/>
-      <circle cx="44" cy="44" r="6" fill="#113"/>
-    </svg>
-    Virtual Dice
-  </h1>
-  <p class="emphasis">Roll dice online</p>
+<div class="controls" role="form" aria-label="Dice controls">
+  <div class="line line1">
+    <label for="numDiceSelect">
+      Number of dice
+      <select id="numDiceSelect" aria-describedby="diceCountHelp">
+        <option value="1" selected>1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option>
+      </select>
+    </label>
 
-  <div class="controls" role="form" aria-label="Dice controls">
-    <div class="line line1">
-      <label for="numDiceSelect">
-        Number of dice
-        <select id="numDiceSelect" aria-describedby="diceCountHelp">
-          <option value="1" selected>1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option>
-        </select>
-      </label>
-
-      <label for="numFacesSelect">
-        Number of faces
-        <select id="numFacesSelect" aria-describedby="faceCountHelp">
-          <option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6" selected>6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option>
-        </select>
-      </label>
-    </div>
-
-    <div class="or-separator" aria-hidden="true">Or</div>
-
-    <div class="line line2">
-      <label for="numDiceInput">
-        Enter dice count
-        <input type="number" id="numDiceInput" min="1" max="100" value="1" step="1" />
-      </label>
-
-      <label for="numFacesInput">
-        Face count
-        <input type="number" id="numFacesInput" min="2" max="100" value="6" step="1" />
-      </label>
-    </div>
+    <label for="numFacesSelect">
+      Number of faces
+      <select id="numFacesSelect" aria-describedby="faceCountHelp">
+        <option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6" selected>6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option>
+      </select>
+    </label>
   </div>
 
-  <div class="dice-container" id="diceContainer" aria-live="polite" aria-atomic="true"></div>
+  <div class="or-separator" aria-hidden="true">Or</div>
 
-  <button id="rollBtn" aria-label="Roll the dice">Roll</button>
+  <div class="line line2">
+    <label for="numDiceInput">
+      Enter dice count
+      <input type="number" id="numDiceInput" min="1" max="100" value="1" step="1" />
+    </label>
 
-  <div id="result" aria-live="polite" aria-atomic="true">Result: </div>
-
-  <div class="instructions">
-    <p>This is an online dice simulator. You can select or enter the number of dice and faces.</p>
-    <ol>
-      <li>Select or enter the number of dice.</li>
-      <li>Select or enter the number of faces.</li>
-      <li>Click <strong>Roll</strong> to roll the dice.</li>
-      <li>The result shows the sum of all dice rolled.</li>
-    </ol>
+    <label for="numFacesInput">
+      Face count
+      <input type="number" id="numFacesInput" min="2" max="100" value="6" step="1" />
+    </label>
   </div>
+</div>
 
-  <script>
-    const diceContainer = document.getElementById('diceContainer');
-    const rollBtn = document.getElementById('rollBtn');
-    const numDiceSelect = document.getElementById('numDiceSelect');
-    const numDiceInput = document.getElementById('numDiceInput');
-    const numFacesSelect = document.getElementById('numFacesSelect');
-    const numFacesInput = document.getElementById('numFacesInput');
-    const resultDiv = document.getElementById('result');
+<div class="dice-container" id="diceContainer" aria-live="polite" aria-atomic="true"></div>
 
-    const diceDotPositions = {
-      1: ['dot5'],
-      2: ['dot1', 'dot9'],
-      3: ['dot1', 'dot5', 'dot9'],
-      4: ['dot1', 'dot3', 'dot7', 'dot9'],
-      5: ['dot1', 'dot3', 'dot5', 'dot7', 'dot9'],
-      6: ['dot1', 'dot2', 'dot3', 'dot7', 'dot8', 'dot9']
-    };
+<button id="rollBtn" aria-label="Roll the dice">Roll</button>
 
-    function createDot(className) {
-      const dot = document.createElement('div');
-      dot.classList.add('dot', className);
-      return dot;
+<div id="result" aria-live="polite" aria-atomic="true">Result: </div>
+
+<div class="instructions">
+  <p>This is an online dice simulator. You can select or enter the number of dice and faces.</p>
+  <ol>
+    <li>Select or enter the number of dice.</li>
+    <li>Select or enter the number of faces.</li>
+    <li>Click <strong>Roll</strong> to roll the dice.</li>
+    <li>The result shows the sum of all dice rolled.</li>
+  </ol>
+</div>
+
+<script>
+  const diceContainer = document.getElementById('diceContainer');
+  const rollBtn = document.getElementById('rollBtn');
+  const numDiceSelect = document.getElementById('numDiceSelect');
+  const numDiceInput = document.getElementById('numDiceInput');
+  const numFacesSelect = document.getElementById('numFacesSelect');
+  const numFacesInput = document.getElementById('numFacesInput');
+  const resultDiv = document.getElementById('result');
+
+  const diceDotPositions = {
+    1: ['dot5'],
+    2: ['dot1', 'dot9'],
+    3: ['dot1', 'dot5', 'dot9'],
+    4: ['dot1', 'dot3', 'dot7', 'dot9'],
+    5: ['dot1', 'dot3', 'dot5', 'dot7', 'dot9'],
+    6: ['dot1', 'dot2', 'dot3', 'dot7', 'dot8', 'dot9']
+  };
+
+  function createDot(className) {
+    const dot = document.createElement('div');
+    dot.classList.add('dot', className);
+    return dot;
+  }
+
+  function renderDiceFace(value, faces, size) {
+    const dice = document.createElement('div');
+    dice.classList.add('dice');
+    dice.dataset.value = value;
+
+    dice.style.width = size + 'px';
+    dice.style.height = size + 'px';
+
+    if (faces === 6 && diceDotPositions[value]) {
+      dice.style.fontSize = (size * 0.6) + 'px';
+      dice.style.color = '#113';
+      dice.innerHTML = '';
+      diceDotPositions[value].forEach(dotClass => {
+        dice.appendChild(createDot(dotClass));
+      });
+    } else {
+      dice.style.fontSize = (size * 0.6) + 'px';
+      dice.style.color = '#113';
+      dice.textContent = value;
     }
+    return dice;
+  }
 
-    function renderDiceFace(value, faces, size) {
-      const dice = document.createElement('div');
-      dice.classList.add('dice');
-      dice.dataset.value = value;
-
-      dice.style.width = size + 'px';
-      dice.style.height = size + 'px';
-
-      if (faces === 6 && diceDotPositions[value]) {
-        dice.style.fontSize = (size * 0.6) + 'px';
-        dice.style.color = '#113';
-        dice.innerHTML = '';
-        diceDotPositions[value].forEach(dotClass => {
-          dice.appendChild(createDot(dotClass));
-        });
+  function syncDiceInputs(fromInput) {
+    if (fromInput === 'select') {
+      numDiceInput.value = numDiceSelect.value;
+    } else {
+      let val = parseInt(numDiceInput.value);
+      if (isNaN(val) || val < 1) val = 1;
+      if (val > 100) val = 100;
+      numDiceInput.value = val;
+      if (val <= 16) {
+        numDiceSelect.value = val.toString();
       } else {
-        dice.style.fontSize = (size * 0.6) + 'px';
-        dice.style.color = '#113';
-        dice.textContent = value;
-      }
-      return dice;
-    }
-
-    function syncDiceInputs(fromInput) {
-      if (fromInput === 'select') {
-        numDiceInput.value = numDiceSelect.value;
-      } else if (fromInput === 'input') {
-        if (numDiceInput.value < 1) numDiceInput.value = 1;
-        if (numDiceInput.value > 100) numDiceInput.value = 100;
-        numDiceSelect.value = Math.min(16, Math.max(1, numDiceInput.value));
+        numDiceSelect.value = '';
       }
     }
-
-    function syncFacesInputs(fromInput) {
-      if (fromInput === 'select') {
-        numFacesInput.value = numFacesSelect.value;
-      } else if (fromInput === 'input') {
-        if (numFacesInput.value < 2) numFacesInput.value = 2;
-        if (numFacesInput.value > 100) numFacesInput.value = 100;
-        numFacesSelect.value = Math.min(20, Math.max(2, numFacesInput.value));
-      }
-    }
-
-    numDiceSelect.addEventListener('change', () => syncDiceInputs('select'));
-    numDiceInput.addEventListener('input', () => syncDiceInputs('input'));
-    numFacesSelect.addEventListener('change', () => syncFacesInputs('select'));
-    numFacesInput.addEventListener('input', () => syncFacesInputs('input'));
-
-    function rollDice() {
-      const numDice = Math.min(100, Math.max(1, parseInt(numDiceInput.value) || 1));
-      const numFaces = Math.min(100, Math.max(2, parseInt(numFacesInput.value) || 6));
-      const diceSize = Math.min(120, Math.floor(600 / numDice));
-
-      let sum = 0;
-      diceContainer.innerHTML = '';
-      for (let i = 0; i < numDice; i++) {
-        const val = Math.floor(Math.random() * numFaces) + 1;
-        sum += val;
-        const dice = renderDiceFace(val, numFaces, diceSize);
-        diceContainer.appendChild(dice);
-        // Trigger shake animation
-        dice.classList.remove('shake');
-        void dice.offsetWidth; // reflow
-        dice.classList.add('shake');
-      }
-
-      resultDiv.textContent = `Sum: ${sum}`;
-    }
-
-    rollBtn.addEventListener('click', rollDice);
-
-    // Inicial sincronización
+  }
+  numDiceSelect.addEventListener('change', () => {
     syncDiceInputs('select');
+    initializeDice(parseInt(numDiceSelect.value), parseInt(numFacesInput.value));
+  });
+  numDiceInput.addEventListener('input', () => {
+    syncDiceInputs('input');
+    initializeDice(Math.min(Math.max(parseInt(numDiceInput.value) || 1,1),100), parseInt(numFacesInput.value));
+  });
+
+  function syncFacesInputs(fromInput) {
+    if (fromInput === 'select') {
+      numFacesInput.value = numFacesSelect.value;
+    } else {
+      let val = parseInt(numFacesInput.value);
+      if (isNaN(val) || val < 2) val = 2;
+      if (val > 100) val = 100;
+      numFacesInput.value = val;
+      if (val <= 20) {
+        numFacesSelect.value = val.toString();
+      } else {
+        numFacesSelect.value = '';
+      }
+    }
+  }
+  numFacesSelect.addEventListener('change', () => {
     syncFacesInputs('select');
-  </script>
+    initializeDice(parseInt(numDiceInput.value), parseInt(numFacesSelect.value));
+  });
+  numFacesInput.addEventListener('input', () => {
+    syncFacesInputs('input');
+    initializeDice(parseInt(numDiceInput.value), Math.min(Math.max(parseInt(numFacesInput.value) || 6,2),100));
+  });
+
+  function initializeDice(num, faces) {
+    diceContainer.innerHTML = '';
+
+    let maxPerRow, diceSize, maxContainerWidth;
+
+    if (num < 12) {
+      maxPerRow = 6;
+      diceSize = 200;
+      maxContainerWidth = 6 * diceSize + 5 * 20;
+    } else {
+      maxPerRow = 16;
+      maxContainerWidth = 16 * 90 + 15 * 20;
+      diceSize = Math.floor((maxContainerWidth - (maxPerRow -1) * 20) / maxPerRow);
+      diceSize = Math.max(40, diceSize);
+    }
+
+    diceContainer.style.maxWidth = maxContainerWidth + 'px';
+
+    for(let i=0; i<num; i++) {
+      diceContainer.appendChild(renderDiceFace(1, faces, diceSize));
+    }
+    resultDiv.textContent = 'Result: ';
+  }
+
+  function rollDice() {
+    const numDice = Math.min(Math.max(parseInt(numDiceInput.value), 1), 100);
+    const numFaces = Math.min(Math.max(parseInt(numFacesInput.value), 2), 100);
+
+    rollBtn.disabled = true;
+    resultDiv.textContent = 'Rolling...';
+
+    const diceElements = diceContainer.querySelectorAll('.dice');
+
+    diceElements.forEach(dice => dice.classList.add('shake'));
+
+    setTimeout(() => {
+      let total = 0;
+
+      let maxPerRow, diceSize, maxContainerWidth;
+
+      if (numDice < 12) {
+        maxPerRow = 6;
+        diceSize = 200;
+        maxContainerWidth = 6 * diceSize + 5 * 20;
+      } else {
+        maxPerRow = 16;
+        maxContainerWidth = 16 * 90 + 15 * 20;
+        diceSize = Math.floor((maxContainerWidth - (maxPerRow -1) * 20) / maxPerRow);
+        diceSize = Math.max(40, diceSize);
+      }
+
+      diceContainer.style.maxWidth = maxContainerWidth + 'px';
+
+      diceElements.forEach(dice => {
+        dice.classList.remove('shake');
+        const roll = Math.floor(Math.random() * numFaces) + 1;
+        total += roll;
+        dice.innerHTML = '';
+        dice.dataset.value = roll;
+
+        dice.style.width = diceSize + 'px';
+        dice.style.height = diceSize + 'px';
+
+        if (numFaces === 6 && diceDotPositions[roll]) {
+          dice.style.fontSize = (diceSize * 0.6) + 'px';
+          dice.style.color = '#113';
+          diceDotPositions[roll].forEach(dotClass => {
+            dice.appendChild(createDot(dotClass));
+          });
+        } else {
+          dice.style.fontSize = (diceSize * 0.6) + 'px';
+          dice.style.color = '#113';
+          dice.textContent = roll;
+        }
+      });
+
+      resultDiv.textContent = `Result: ${total}`;
+      rollBtn.disabled = false;
+    }, 600);
+  }
+
+  rollBtn.addEventListener('click', rollDice);
+
+  initializeDice(1, 6);
+</script>
+
+</body>
+</html>
 </section>
 
-<section id="coinSection" role="region" aria-labelledby="btnCoin">
-  <h1>
-    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" width="30" height="30" style="vertical-align:middle; margin-right:8px;">
-      <circle cx="32" cy="32" r="30" fill="#d6ccb6" stroke="#333" stroke-width="2"/>
-      <path d="M32 2a30 30 0 1 1 0 60 30 30 0 0 1 0-60z" fill="none"/>
-    </svg>
-    Virtual Coin Flip
-  </h1>
-  <p class="emphasis">Flip a coin online</p>
+<section id="coinSection" role="region" aria-labelledby="flipBtn">
+  <div id="coin-section" style="text-align: center; margin-top: 80px;">
+    <h2 style="color: #4a5a35; font-size: 28px;">Flip Coin</h2>
 
-  <div class="coin-container" aria-live="polite" aria-atomic="true" aria-label="Coin flip">
-    <div id="coin" class="coin" role="img" aria-roledescription="coin" aria-label="Coin showing heads">
-      <div class="face front" aria-hidden="true">
-        <!-- SVG profile Washington (simplified) -->
-        <svg width="160" height="160" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" fill="#4a5a35">
-          <circle cx="80" cy="80" r="78" stroke="#3b4a28" stroke-width="4" fill="#d6ccb6"/>
-          <!-- Contorno de perfil Washington estilo moneda -->
-          <path d="M55 40c12-2 20 10 22 20 1 12-8 30-8 30s15-3 20-25c5-20-10-40-30-30z" fill="#4a5a35"/>
-          <circle cx="70" cy="70" r="4" fill="#fff"/>
-        </svg>
-      </div>
-      <div class="face back" aria-hidden="true">
-        <!-- Águila estilo moneda -->
-        <svg width="160" height="160" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" fill="#4a5a35">
-          <circle cx="80" cy="80" r="78" stroke="#3b4a28" stroke-width="4" fill="#d6ccb6"/>
-          <path d="M50 110c15-10 60-10 60 0-10-10-30-15-30-15s-20 5-30 15z" fill="#4a5a35"/>
-          <path d="M80 45l20 40-40 0 20-40z" fill="#4a5a35"/>
-        </svg>
+    <div class="coin-container">
+      <div id="coin" class="coin" role="img" aria-label="Coin">
+        <div class="face front">
+          <!-- Heads -->
+          <svg viewBox="0 0 200 200" width="220" height="220" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="100" cy="100" r="90" fill="#d6ccb6" stroke="#8a8a5c" stroke-width="4"/>
+            <ellipse cx="100" cy="100" rx="40" ry="70" fill="#4a5a35" stroke="#2f3b1f" stroke-width="5"/>
+            <circle cx="100" cy="100" r="90" fill="none" stroke="#8a8a5c" stroke-width="1" stroke-dasharray="5 5"/>
+          </svg>
+        </div>
+
+        <div class="face back">
+          <!-- Tails -->
+          <svg viewBox="0 0 200 200" width="220" height="220" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="100" cy="100" r="90" fill="#4a5a35" stroke="#2f3b1f" stroke-width="4"/>
+            <line x1="60" y1="100" x2="140" y2="100" stroke="#d6ccb6" stroke-width="15" stroke-linecap="round"/>
+            <line x1="100" y1="60" x2="100" y2="140" stroke="#d6ccb6" stroke-width="15" stroke-linecap="round"/>
+            <circle cx="100" cy="100" r="90" fill="none" stroke="#2f3b1f" stroke-width="1" stroke-dasharray="5 5"/>
+          </svg>
+        </div>
       </div>
     </div>
+
+    <button id="flipBtn">Flip</button>
+
+    <p id="coin-result" style="font-size: 22px; margin-top: 15px; color: #4a5a35; font-weight: bold; min-height: 24px;"></p>
   </div>
-  <button id="flipBtn" aria-label="Flip the coin">Flip Coin</button>
+
+  <style>
+    .coin-container {
+      perspective: 1000px;
+      height: 220px;
+      width: 220px;
+      margin: 40px auto;
+    }
+
+    .coin {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      background: transparent;
+      transform: rotateY(0deg);
+    }
+
+    .face {
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      backface-visibility: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      user-select: none;
+    }
+
+    .front {
+      transform: rotateY(0deg);
+      z-index: 2;
+    }
+
+    .back {
+      transform: rotateY(180deg);
+      z-index: 1;
+    }
+
+    #flipBtn {
+      font-size: 18px;
+      padding: 10px 25px;
+      background-color: #4a5a35;
+      color: #eee;
+      border: none;
+      border-radius: 6px;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-top: 15px;
+    }
+
+    #flipBtn:hover {
+      background-color: #3b4a28;
+    }
+  </style>
 
   <script>
-    const coin = document.getElementById('coin');
-    const flipBtn = document.getElementById('flipBtn');
+    const coin = document.getElementById("coin");
+    const resultText = document.getElementById("coin-result");
+    const flipBtn = document.getElementById("flipBtn");
 
-    let flipped = false;
+    let flipping = false;
+    let currentRotation = 0;
 
-    flipBtn.addEventListener('click', () => {
-      flipped = !flipped;
-      coin.style.transform = flipped ? 'rotateY(180deg)' : 'rotateY(0deg)';
-      coin.setAttribute('aria-label', flipped ? 'Coin showing tails' : 'Coin showing heads');
+    function flipCoin() {
+      if (flipping) return;
+      flipping = true;
+      resultText.textContent = "";
+
+      const randomExtra = Math.random() < 0.5 ? 0 : 180;
+      const spins = 8;
+      const totalRotation = spins * 360 + randomExtra;
+
+      currentRotation += totalRotation;
+
+      coin.style.transition = "transform 0.8s";
+      coin.style.transform = `rotateY(${currentRotation}deg)`;
+    }
+
+    coin.addEventListener("transitionend", () => {
+      const angle = currentRotation % 360;
+      const result = (angle % 360 === 180) ? "Tails" : "Heads";
+      resultText.textContent = result;
+      flipping = false;
     });
+
+    flipBtn.addEventListener("click", flipCoin);
   </script>
 </section>
+
+
+
 
 <section id="cardSection" role="region" aria-labelledby="btnCard">
-  <h1>Cartas</h1>
-  <p>Próximamente.</p>
+  <!-- Aquí va el código para cartas -->
+  <h1>Extraer carta</h1>
+  <p>Funcionalidad pendiente...</p>
 </section>
 
 <script>
+  // Control básico para cambiar de sección y botones activos
+
   const btnDice = document.getElementById('btnDice');
   const btnCoin = document.getElementById('btnCoin');
   const btnCard = document.getElementById('btnCard');
@@ -564,28 +726,40 @@
   const coinSection = document.getElementById('coinSection');
   const cardSection = document.getElementById('cardSection');
 
-  function switchSection(sectionToShow, btnToActivate) {
-    [diceSection, coinSection, cardSection].forEach(sec => sec.classList.remove('active'));
-    [btnDice, btnCoin, btnCard].forEach(btn => {
-      btn.classList.remove('active');
-      btn.setAttribute('aria-selected', 'false');
-      btn.setAttribute('tabindex', '-1');
-    });
-    sectionToShow.classList.add('active');
-    btnToActivate.classList.add('active');
-    btnToActivate.setAttribute('aria-selected', 'true');
-    btnToActivate.setAttribute('tabindex', '0');
+  function deactivateAll() {
+    btnDice.classList.remove('active');
+    btnDice.setAttribute('aria-selected', 'false');
+    btnCoin.classList.remove('active');
+    btnCoin.setAttribute('aria-selected', 'false');
+    btnCard.classList.remove('active');
+    btnCard.setAttribute('aria-selected', 'false');
+
+    diceSection.classList.remove('active');
+    coinSection.classList.remove('active');
+    cardSection.classList.remove('active');
   }
 
-  btnDice.addEventListener('click', () => switchSection(diceSection, btnDice));
-  btnCoin.addEventListener('click', () => switchSection(coinSection, btnCoin));
-  btnCard.addEventListener('click', () => switchSection(cardSection, btnCard));
-
-  // Set initial focus and tab indexes
-  btnDice.setAttribute('tabindex', '0');
-  btnCoin.setAttribute('tabindex', '-1');
-  btnCard.setAttribute('tabindex', '-1');
+  btnDice.addEventListener('click', () => {
+    deactivateAll();
+    btnDice.classList.add('active');
+    btnDice.setAttribute('aria-selected', 'true');
+    diceSection.classList.add('active');
+  });
+  btnCoin.addEventListener('click', () => {
+    deactivateAll();
+    btnCoin.classList.add('active');
+    btnCoin.setAttribute('aria-selected', 'true');
+    coinSection.classList.add('active');
+  });
+  btnCard.addEventListener('click', () => {
+    deactivateAll();
+    btnCard.classList.add('active');
+    btnCard.setAttribute('aria-selected', 'true');
+    cardSection.classList.add('active');
+  });
 </script>
+
+<!-- Aquí agregas el script de dado íntegro solo para #diceSection -->
 
 </body>
 </html>
