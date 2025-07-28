@@ -58,9 +58,10 @@
 <body>
 
 <nav aria-label="Navegación principal">
-  <button id="btnDice" class="active" aria-controls="diceSection" aria-selected="true">Dados</button>
-  <button id="btnCoin" aria-controls="coinSection" aria-selected="false">Moneda</button>
-  <button id="btnCard" aria-controls="cardSection" aria-selected="false">Cartas</button>
+  <button id="btnDice" class="active" aria-controls="diceSection" aria-selected="true">Dice</button>
+  <button id="btnCoin" aria-controls="raffleSection" aria-selected="false">Raffle</button>
+  <button id="btnCoin" aria-controls="coinSection" aria-selected="false">Coin</button>
+  <button id="btnCard" aria-controls="cardSection" aria-selected="false">Cards</button>
 </nav>
 
 <section id="diceSection" class="active" role="region" aria-labelledby="btnDice">
@@ -723,16 +724,28 @@
   <p>Funcionalidad pendiente...</p>
 </section>
 
+  <section id="raffleSection" role="tabpanel" hidden>
+  <div style="text-align: center; margin-top: 80px;">
+    <h2 style="color: #4a5a35; font-size: 28px; font-weight: 300;">Raffle</h2>
+    <p style="font-size: 20px;">(Coming soon or under construction)</p>
+  </div>
+</section>
+
+
 <script>
   // Control básico para cambiar de sección y botones activos
 
   const btnDice = document.getElementById('btnDice');
   const btnCoin = document.getElementById('btnCoin');
   const btnCard = document.getElementById('btnCard');
+  const btnRaffle = document.getElementById('btnRaffle');
+
+
 
   const diceSection = document.getElementById('diceSection');
   const coinSection = document.getElementById('coinSection');
   const cardSection = document.getElementById('cardSection');
+  const raffleSection = document.getElementById('raffleSection');
 
   function deactivateAll() {
     btnDice.classList.remove('active');
@@ -741,10 +754,13 @@
     btnCoin.setAttribute('aria-selected', 'false');
     btnCard.classList.remove('active');
     btnCard.setAttribute('aria-selected', 'false');
+    btnRaffle.classList.remove('active');
+    btnRaffle.setAttribute('aria-selected', 'false');
 
     diceSection.classList.remove('active');
     coinSection.classList.remove('active');
     cardSection.classList.remove('active');
+    raffleSection.classList.remove('active');
   }
 
   btnDice.addEventListener('click', () => {
@@ -765,6 +781,14 @@
     btnCard.setAttribute('aria-selected', 'true');
     cardSection.classList.add('active');
   });
+
+  btnRaffle.addEventListener('click', () => {
+  deactivateAll();
+  btnRaffle.classList.add('active');
+  btnRaffle.setAttribute('aria-selected', 'true');
+  raffleSection.classList.add('active');
+});
+
 </script>
 
 <!-- Aquí agregas el script de dado íntegro solo para #diceSection -->
