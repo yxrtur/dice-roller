@@ -580,109 +580,44 @@
 </html>
 </section>
 
-<section id="coinSection" role="region" aria-labelledby="btnCoin">
-  <div id="coin-section" style="text-align: center; margin-top: 80px;">
-    <h2 style="color: #4a5a35; font-size: 28px;">Lanzar Moneda</h2>
+<section id="coinSection" role="region" aria-labelledby="btnCoin" style="text-align:center; margin-top:80px;">
 
-    <div class="coin-container">
-      <div id="coin" class="coin" aria-live="polite" aria-atomic="true" role="img" aria-label="Moneda a lanzar">
-        <div class="face front" aria-hidden="true">
-          <!-- Perfil Washington simplificado SVG -->
-          <svg viewBox="0 0 64 64" width="140" height="140" xmlns="http://www.w3.org/2000/svg" >
-            <circle cx="32" cy="32" r="30" fill="#d6ccb6" stroke="#8a8a5c" stroke-width="2"/>
-            <path fill="#4a5a35" d="M25 10c6-1 10 2 10 8 0 5-4 9-4 15 0 3 3 4 3 7-7 0-10-9-10-16 0-7 2-14 1-14z"/>
-            <!-- Contorno dentado simplificado -->
-            <circle cx="32" cy="32" r="30" fill="none" stroke="#8a8a5c" stroke-width="1" stroke-dasharray="3 5"/>
-          </svg>
-        </div>
+  <h2 style="color: #4a5a35; font-size: 28px;">Flip Coin</h2>
 
-        <div class="face back" aria-hidden="true">
-          <!-- Águila simplificada SVG -->
-          <svg viewBox="0 0 64 64" width="140" height="140" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="32" cy="32" r="30" fill="#4a5a35" stroke="#2f3b1f" stroke-width="2"/>
-            <path fill="#d6ccb6" d="M20 40 L32 20 L44 40 L38 38 L32 28 L26 38z"/>
-            <circle cx="32" cy="45" r="4" fill="#d6ccb6"/>
-            <circle cx="32" cy="32" r="30" fill="none" stroke="#2f3b1f" stroke-width="1" stroke-dasharray="3 5"/>
-          </svg>
-        </div>
+  <div class="coin-container" style="perspective: 1000px; height: 150px; margin: 40px auto; width: 150px;">
+    <div id="coin" class="coin" style="
+      width: 150px; height: 150px; border-radius: 50%; position: relative;
+      transform-style: preserve-3d; transition: transform 1.5s ease-in-out;
+      border: 6px solid #c7bf9c; box-shadow: 0 0 12px rgba(0,0,0,0.3);
+      background-color: #e5dec8;
+      ">
+      <div class="face front" style="
+        position: absolute; width: 150px; height: 150px; border-radius: 50%;
+        backface-visibility: hidden; overflow: hidden;
+      ">
+        <img src="/mnt/data/fde92f77-ad24-4759-9b40-cd2402300710.png" alt="Washington Profile" style="width: 150px; height: 150px; object-fit: cover;"/>
+      </div>
+      <div class="face back" style="
+        position: absolute; width: 150px; height: 150px; border-radius: 50%;
+        backface-visibility: hidden; transform: rotateY(180deg);
+        background: radial-gradient(circle at center, #4a5a35 60%, #2f3b1f 100%);
+        display: flex; justify-content: center; align-items: center;
+      ">
+        <!-- Simple eagle silhouette -->
+        <svg width="100" height="100" viewBox="0 0 64 64" fill="#e5dec8" xmlns="http://www.w3.org/2000/svg" aria-label="Eagle silhouette">
+          <path d="M32 12 L38 26 L44 24 L40 32 L46 36 L40 40 L38 44 L34 42 L30 44 L26 40 L24 36 L28 32 L22 24 L28 26 Z"/>
+        </svg>
       </div>
     </div>
-
-    <button id="flipBtn">Lanzar</button>
-
-    <p id="coin-result" style="font-size: 18px; margin-top: 15px; color: #4a5a35; font-weight: bold; min-height: 24px;"></p>
   </div>
 
-  <style>
-    .coin-container {
-      perspective: 1000px;
-      height: 150px;
-      margin: 40px auto;
-      width: 150px;
-    }
+  <button id="flipBtn" style="
+    font-size: 18px; padding: 10px 25px; background-color: #4a5a35; color: #eee;
+    border: none; border-radius: 6px; box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+    cursor: pointer; transition: background-color 0.3s;
+  ">Flip</button>
 
-    .coin {
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      position: relative;
-      transform-style: preserve-3d;
-      transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-      cursor: pointer;
-      box-shadow:
-        inset 0 0 20px rgba(255,255,255,0.4),
-        0 4px 6px rgba(0,0,0,0.3);
-      background: transparent;
-    }
-
-    .face {
-      position: absolute;
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      backface-visibility: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      user-select: none;
-    }
-
-    .front {
-      transform: rotateY(0deg);
-      z-index: 2;
-    }
-
-    .back {
-      transform: rotateY(180deg);
-      z-index: 1;
-    }
-
-    /* Animaciones con clases */
-    .coin.heads {
-      transform: rotateY(0deg);
-    }
-
-    .coin.tails {
-      transform: rotateY(1800deg);
-    }
-
-    #flipBtn {
-      font-size: 18px;
-      padding: 10px 25px;
-      background-color: #4a5a35;
-      color: #eee;
-      border: none;
-      border-radius: 6px;
-      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
-      cursor: pointer;
-      transition: background-color 0.3s;
-      margin-top: 15px;
-    }
-
-    #flipBtn:hover {
-      background-color: #3b4a28;
-    }
-  </style>
+  <p id="coin-result" style="font-size: 18px; margin-top: 15px; min-height: 24px;"></p>
 
   <script>
     const coin = document.getElementById("coin");
@@ -691,33 +626,29 @@
 
     let flipping = false;
 
-    function flipCoin() {
-      if (flipping) return;
+    flipBtn.addEventListener("click", () => {
+      if (flipping) return; // evita tiradas múltiples simultáneas
       flipping = true;
       resultText.textContent = "";
-      coin.classList.remove("heads", "tails");
 
       const isHeads = Math.random() < 0.5;
+      coin.style.transform = "rotateY(0deg)";
 
-      if (isHeads) {
-        coin.classList.add("heads");
-      } else {
-        coin.classList.add("tails");
-      }
-    }
+      // For animation: 5 full rotations + end at 0 or 180 deg
+      coin.style.transition = "transform 1.5s ease-in-out";
+      setTimeout(() => {
+        coin.style.transform = isHeads ? "rotateY(3600deg)" : "rotateY(3510deg)";
+      }, 100);
 
-    coin.addEventListener("transitionend", () => {
-      if (coin.classList.contains("heads")) {
-        resultText.textContent = "¡Salió Cara!";
-      } else if (coin.classList.contains("tails")) {
-        resultText.textContent = "¡Salió Cruz!";
-      }
-      flipping = false;
+      setTimeout(() => {
+        resultText.textContent = isHeads ? "Heads" : "Tails";
+        flipping = false;
+      }, 1700);
     });
-
-    flipBtn.addEventListener("click", flipCoin);
   </script>
+
 </section>
+
 
 
 
