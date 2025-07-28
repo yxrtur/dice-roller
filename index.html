@@ -640,6 +640,97 @@
       width: 150px;
       height: 150px;
       border-radius: 50%;
+      backface-visibility: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      user-select: none;
+    }
+
+    .front {
+      transform: rotateY(0deg);
+      z-index: 2;
+    }
+
+    .back {
+      transform: rotateY(180deg);
+      z-index: 1;
+    }
+
+    /* Animations with classes */
+    .coin.heads {
+      transform: rotateY(0deg);
+    }
+
+    .coin.tails {
+      transform: rotateY(180deg);
+    }
+
+    #flipBtn {
+      font-size: 18px;
+      padding: 10px 25px;
+      background-color: #4a5a35;
+      color: #eee;
+      border: none;
+      border-radius: 6px;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-top: 15px;
+    }
+
+    #flipBtn:hover {
+      background-color: #3b4a28;
+    }
+  </style>
+
+  <script>
+    const coin = document.getElementById("coin");
+    const resultText = document.getElementById("coin-result");
+    const flipBtn = document.getElementById("flipBtn");
+
+    let flipping = false;
+
+    function flipCoin() {
+      if (flipping) return;
+      flipping = true;
+      resultText.textContent = "";
+
+      // Reset transform to allow new animation
+      coin.style.transition = "none";
+      coin.style.transform = "rotateY(0deg)";
+
+      // Force reflow to apply reset immediately
+      coin.offsetHeight;
+
+      const isHeads = Math.random() < 0.5;
+
+      // Apply transition back
+      coin.style.transition = "transform 1.2s cubic-bezier(0.4, 0, 0.2, 1)";
+
+      if (isHeads) {
+        coin.style.transform = "rotateY(360deg)";
+        coin.setAttribute('data-side', 'heads');
+      } else {
+        coin.style.transform = "rotateY(180deg)";
+        coin.setAttribute('data-side', 'tails');
+      }
+    }
+
+    coin.addEventListener("transitionend", () => {
+      const side = coin.getAttribute('data-side');
+      if (side === "heads") {
+        resultText.textContent = "Heads!";
+      } else if (side === "tails") {
+        resultText.textContent = "Tails!";
+      }
+      flipping = false;
+    });
+
+    flipBtn.addEventListener("click", flipCoin);
+  </script>
+</section>
+
 
 
 
